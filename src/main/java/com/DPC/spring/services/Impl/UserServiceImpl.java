@@ -1,31 +1,42 @@
 package com.DPC.spring.services.Impl;
 
-import com.DPC.spring.DTO.UserDetailsDto;
+
+import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.Mappers.MappersDto;
+import com.DPC.spring.entities.Adress;
+import com.DPC.spring.entities.Role;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
+import com.DPC.spring.repositories.RoleRepository;
+import com.DPC.spring.repositories.UserDetailsRepository;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    UserDetailsRepository userDetailsRepository;
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RoleRepository roleRepository;
 
     final MappersDto mappersDto;
 
@@ -53,6 +64,32 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
     }
+    @Override
+    public String UpdateByIdDto(UserDto userDto , long id) {
+            Optional<User> userData = this.userRepository.findById(id);
+            if (userData.isPresent()) {
+                User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                existingUser.setFirstName(userDto.getFirstName());
+                existingUser.setLastName(userDto.getLastName());
+                existingUser.setEmail(userDto.getEmail());
+                existingUser.setPassword(userDto.getPassword());
+
+               // Change password if exist
+           if(!userDto.getPassword().isEmpty())
+            {
+                existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            }
+           // save existingUser in the database
+            this.userRepository.save(existingUser);
+            // return statement
+            return "User updated successfully!";
+       } else {
+            throw new ResourceNotFoundException("User not found");
+        }
+
+
+        }
+
 
     @Override
     public UserDto findUserDtoByID(long id) {
@@ -63,39 +100,91 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveNewUser(User user) {
-        return null;
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return this.userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return this.userRepository.findAll();
     }
 
     @Override
     public User findUserByID(long id) {
-        return null;
+        Optional<User> userData = this.userRepository.findById(id);
+        // Return statement if user exist or throw exception
+        return userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
     }
 
-    @Override
-    public String updateUserByID(long id, User user) {
-        return null;
-    }
+//    @Override
+//    public String updateUserByID(long id, User user)
+//    {
+//        Optional<User> userData = this.userRepository.findById(id);
+//        if (userData.isPresent()) {
+//            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//            existingUser.setFirstName(user.getFirstName());
+//            existingUser.setLastName(user.getLastName());
+//            existingUser.setEmail(user.getEmail());
+//            // Change password if exist
+//            if(!user.getPassword().isEmpty())
+//            {
+//                existingUser.setPassword(passwordEncoder.encode(user.getPassword()));
+//            }
+//            // save existingUser in the database
+//            this.userRepository.save(existingUser);
+//            // return statement
+//            return "User updated successfully!";
+//        } else {
+//            throw new ResourceNotFoundException("User not found");
+//        }
+//    }
 
     @Override
-    public String deleteUserById(long id) {
-        return null;
+    public String deleteUserById(long id)
+    {
+        Optional<User> userData = this.userRepository.findById(id);
+        if (userData.isPresent()) {
+            this.userRepository.deleteById(id);
+            return "User deleted successfully!";
+        } else {
+            throw new ResourceNotFoundException("User not found");
+        }
     }
 
     @Override
     public String affectUserToRole(long idUser, long idRole) {
-        return null;
+        Optional<User> userData = this.userRepository.findById(idUser);
+        if (userData.isPresent()) {
+            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            Optional<Role> roleData = this.roleRepository.findById(idRole);
+            if (roleData.isPresent()) {
+                Role existingRole = roleData.orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+                Set<Role> roles = existingUser.getRoles();
+                roles.add(existingRole);
+                existingUser.setRoles(roles);
+                this.userRepository.save(existingUser);
+            }
+        }
+        return "User affected to role successfully!";
     }
 
     @Override
-    public String affectUserToUserDetails(long idUser, long idDetails) {
-        return null;
+    public  String affectUserToDetails(long idUser, long idDetails) {
+        Optional<User> userData = this.userRepository.findById(idUser);
+        if (userData.isPresent()) {
+            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            Optional<UserDetails> detailsData = this.userDetailsRepository.findById(idDetails);
+            if (detailsData.isPresent()) {
+                UserDetails existingDetails = detailsData.orElseThrow(() -> new ResourceNotFoundException("Details not found"));
+                existingDetails.setUser(existingUser);
+                existingUser.setDetails(existingDetails);
+                this.userRepository.save(existingUser);
+                this.userDetailsRepository.save(existingDetails);
+            }
+        }
+        return "User affected to details successfully!";
     }
-    @Override
 
     @Transactional(readOnly = true)
     public User findByEmail(String email) {

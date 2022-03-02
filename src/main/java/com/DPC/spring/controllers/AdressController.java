@@ -22,13 +22,13 @@ public class AdressController {
         List<AdressDto> listAdress = this.adressService.getAllAdressDto();
         return new ResponseEntity<>(listAdress, HttpStatus.OK);
     }
-    @GetMapping
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){
         AdressDto AdressData = this.adressService.UpdateById(adressDto,id);
         return new ResponseEntity<>(AdressData, HttpStatus.OK);
 
     }
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<?> saveAdressDto(@RequestBody AdressDto adressDto){
         AdressDto savedAdress =  this.adressService.saveNewAdressDto(adressDto);
         return new ResponseEntity<>(savedAdress, HttpStatus.CREATED);

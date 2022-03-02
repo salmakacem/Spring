@@ -1,5 +1,6 @@
 package com.DPC.spring.controllers;
 
+import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.User;
@@ -32,6 +33,12 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
+        String message = this.userService.UpdateByIdDto(userDto,id);
+       return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
+
+    }
 
     @GetMapping("/GetAll")
     public ResponseEntity<List<UserDto>> getAll()
@@ -62,12 +69,12 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MessageResponse> updateUserByID(@PathVariable("id") long id, @RequestBody User user)
-    {
-        String message = this.userService.updateUserByID(id, user);
-        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
-    }
+//    @PutMapping("/{id}")
+//    public ResponseEntity<MessageResponse> updateUserByID(@PathVariable("id") long id, @RequestBody User user)
+//    {
+//        String message = this.userService.updateUserByID(id, user);
+//        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteUserById(@PathVariable("id") long id)
@@ -86,7 +93,7 @@ public class UserController {
     // Affecter Details to user
     @PutMapping("/affect-details/{idUser}/{idDetails}")
     public ResponseEntity<MessageResponse> affectUserToUserDetails(long idUser, long idDetails) {
-        String message = this.userService.affectUserToUserDetails(idUser, idDetails);
+        String message = this.userService.affectUserToDetails(idUser, idDetails);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
 
