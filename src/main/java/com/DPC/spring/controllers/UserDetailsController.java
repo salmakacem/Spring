@@ -1,6 +1,7 @@
 package com.DPC.spring.controllers;
 
 import com.DPC.spring.DTO.UserDetailsDto;
+import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.Role;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.entities.UserDetails;
@@ -31,6 +32,12 @@ public class UserDetailsController {
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDetailsDto userDetailsDto){
         UserDetailsDto savedUser =  this.userDetailsService.saveNewUserDetailsDto(userDetailsDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+
+    }
+    @PutMapping("Dto/{id}")
+    public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDetailsDto userDetailsDto , @PathVariable("id") long id){
+        String message = this.userDetailsService.UpdateByIdDto(userDetailsDto,id);
+        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 
     }
 

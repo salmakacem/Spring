@@ -48,7 +48,7 @@ public class AdressServiceImpl implements AdressService {
 
     @Override
     public AdressDto UpdateById(AdressDto adressDto , long id) {
-       // Adress adress = mappersDto.AdressDtoToAdress(adressDto);
+       Adress adress = mappersDto.AdressDtoToAdress(adressDto);
         Adress saveAdress= adressRepository.findById(id).get();
         AdressDto adressDto1=mappersDto.AdressToAdressDto(saveAdress);
         return adressDto1;
