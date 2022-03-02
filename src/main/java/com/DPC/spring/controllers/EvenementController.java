@@ -47,8 +47,6 @@ public class EvenementController {
         return new ResponseEntity<>(evenementDto, HttpStatus.OK);
     }
 
-
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEventDto(@RequestBody EvenementDto evenementDto,@PathVariable("id") long id){
         String EventData = this.evenementService.UpdateById(evenementDto ,id);
