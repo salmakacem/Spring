@@ -23,7 +23,9 @@ public class Archive implements Serializable {
     @Setter(value = AccessLevel.NONE)
     private Long id;
 
-
+    @NonNull
+    @Column(name = "Description")
+    private String description;
 
     @NonNull
     @Column(name = "date_archivage")

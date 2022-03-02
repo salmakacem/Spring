@@ -14,6 +14,8 @@ public interface MappersDto {
     User UserDtoToUser(UserDto userDto);
     EvenementDto EvenementToEvenementDto(Evenement evenement);
     Evenement EvenementDtoToEvenement(EvenementDto evenementDto);
+    ArchiveDto ArchiveToArchiveDto(Archive archive);
+    Archive ArchiveDtoToArchive(ArchiveDto archiveDto);
 
 
 }
