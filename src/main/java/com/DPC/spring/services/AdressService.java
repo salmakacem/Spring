@@ -8,5 +8,10 @@ import java.util.List;
 public interface AdressService {
     AdressDto saveNewAdressDto(AdressDto adressDto);
     List<AdressDto> getAllAdressDto();
-    AdressDto UpdateById(AdressDto adressDto ,long id);
+
+
+    String deleteAdressById(long id);
+    String UpdateById(AdressDto adressDto, long id);
+
+    AdressDto findAdressByID(long id);
 }

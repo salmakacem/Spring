@@ -11,7 +11,9 @@ public interface EvenementService {
     EvenementDto saveNewEventDto(EvenementDto evenementDto);
     List<EvenementDto> getAllEventDto();
     EvenementDto findEventByID(long id);
-    EvenementDto UpdateById(EvenementDto evenementDto , long id);
+    String UpdateById(EvenementDto evenementDto , long id);
+    String deleteEventById(long id);
+
 
     String affectEventToAdress(long idAdress, long idEvent);
 
