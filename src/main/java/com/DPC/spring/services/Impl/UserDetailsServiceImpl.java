@@ -1,6 +1,7 @@
 package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.DTO.UserDetailsDto;
+import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.Adress;
 import com.DPC.spring.entities.ERole;
@@ -24,8 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
-
-
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     UserDetailsRepository userDetailsRepository;
     @Autowired
@@ -58,6 +59,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .collect(Collectors.toList());
 
     }
+    @Override
+    public String UpdateByIdDto(UserDetailsDto userDetailsDto , long id) {
+        Optional<UserDetails> userDetailsData = this.userDetailsRepository.findById(id);
+        if (userDetailsData.isPresent()) {
+            UserDetails existingUserDetails = userDetailsData.orElseThrow(() -> new ResourceNotFoundException("UserDetails not found"));
+            existingUserDetails.setCIN(userDetailsDto.getCIN());
+            existingUserDetails.setProfession(userDetailsDto.getProfession());
+            existingUserDetails.setSexe(userDetailsDto.getSexe());
+            existingUserDetails.setAge(userDetailsDto.getAge());
+            existingUserDetails.setDate_de_naissance(userDetailsDto.getDate_de_naissance());
+            existingUserDetails.setTéléphone(userDetailsDto.getTéléphone());
+            // Change password if exist
+
+            // save existingUser in the database
+            this.userDetailsRepository.save(existingUserDetails);
+            // return statement
+            return "UserDetails updated successfully!";
+        } else {
+            throw new ResourceNotFoundException("UserDetails not found");
+        }
+
+
+    }
+
 
     @Override
     public UserDetailsDto findUserDtoByID(long id) {
@@ -68,6 +93,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public UserDetails saveNewDetails(UserDetails userDetails)
     {
+
         return this.userDetailsRepository.save(userDetails);
     }
 
