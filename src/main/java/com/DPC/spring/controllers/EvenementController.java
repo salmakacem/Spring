@@ -51,17 +51,17 @@ public class EvenementController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEventDto(@RequestBody EvenementDto evenementDto,@PathVariable("id") long id){
-        EvenementDto EventData = this.evenementService.UpdateById(evenementDto,id);
+        String EventData = this.evenementService.UpdateById(evenementDto ,id);
         return new ResponseEntity<>(EventData, HttpStatus.OK);
 
     }
 
-   /* @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteEvenementById(@PathVariable("id") long id)
     {
-        String message = this.evenementService.deleteEvenementById(id);
+        String message = this.evenementService.deleteEventById(id);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
-    }*/
+    }
 
 
     @PutMapping("/affect-adress/{idAdress}/{idEvent}")

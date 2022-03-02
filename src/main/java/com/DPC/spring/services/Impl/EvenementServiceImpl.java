@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class EvenementServiceImpl implements EvenementService {
 
+
     @Autowired
     EvenementRepository evenementRepository;
 
@@ -36,15 +37,15 @@ public class EvenementServiceImpl implements EvenementService {
 
     @Override
     public EvenementDto saveNewEventDto(EvenementDto evenementDto) {
-            Evenement evenement = mappersDto.EvenementDtoToEvenement(evenementDto);
-            Evenement saveEvent=evenementRepository.save(evenement);
-            EvenementDto evenementDto1=mappersDto.EvenementToEvenementDto(saveEvent);
-            return evenementDto1;
+        Evenement evenement = mappersDto.EvenementDtoToEvenement(evenementDto);
+        Evenement saveEvent = evenementRepository.save(evenement);
+        EvenementDto evenementDto1 = mappersDto.EvenementToEvenementDto(saveEvent);
+        return evenementDto1;
     }
 
     @Override
     public List<EvenementDto> getAllEventDto() {
-        List<Evenement> listEventfiltre  =this.evenementRepository.findAll();
+        List<Evenement> listEventfiltre = this.evenementRepository.findAll();
         return listEventfiltre
                 .stream()
                 .map(mappersDto::EvenementToEvenementDto)
@@ -58,30 +59,58 @@ public class EvenementServiceImpl implements EvenementService {
     }
 
     @Override
-    public EvenementDto UpdateById(EvenementDto evenementDto , long id) {
-        Evenement evenement = mappersDto.EvenementDtoToEvenement(evenementDto);
-        Evenement saveEvent= evenementRepository.findById(id).get();
-        EvenementDto eventDto1=mappersDto.EvenementToEvenementDto(saveEvent);
-        return eventDto1;
-
-    }
-
-    public String affectEventToAdress(long idAdress, long idEvent)
-    {
-
-
-        Optional<Evenement> eventData = this.evenementRepository.findById(idEvent);
+    public String UpdateById(EvenementDto evenementDto, long id) {
+        Optional<Evenement> eventData = this.evenementRepository.findById(id);
         if (eventData.isPresent()) {
-            Evenement existingEvent = eventData.orElseThrow(() -> new ResourceNotFoundException("Details not found"));
-            Optional<Adress> adressData = this.adressRepository.findById(idAdress);
-            if (adressData.isPresent()) {
-                Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
-                //  existingAdress.setUserDetails(existingUserDetails);
-                existingEvent.setAdress(existingAdress);
-                this.evenementRepository.save(existingEvent);
-                this.adressRepository.save(existingAdress);
-            }
+            Evenement existingEvenement = eventData.orElseThrow(() -> new ResourceNotFoundException("Evenement not found"));
+            existingEvenement.setBudget(evenementDto.getBudget());
+            existingEvenement.setEvent_name(evenementDto.getEvent_name());
+            existingEvenement.setDescription(evenementDto.getDescription());
+            existingEvenement.setStatut(evenementDto.getStatut());
+            existingEvenement.setDate(evenementDto.getDate());
+
+            this.evenementRepository.save(existingEvenement);
+
+
+            return "evenement updated successfully!";
         }
-        return "Details affected to details successfully!";
+        else {
+            throw new ResourceNotFoundException("evenement not found");
+        }
+
     }
+    public String deleteEventById(long id)
+    {
+        Optional<Evenement> eventData = this.evenementRepository.findById(id);
+        if (eventData.isPresent()) {
+            this.evenementRepository.deleteById(eventData.get().getId());
+            return "User deleted successfully!";
+        } else {
+            throw new ResourceNotFoundException("User not found");
+        }
+    }
+
+
+
+        public String affectEventToAdress(long idAdress, long idEvent)
+        {
+
+
+            Optional<Evenement> eventData = this.evenementRepository.findById(idEvent);
+            if (eventData.isPresent()) {
+                Evenement existingEvent = eventData.orElseThrow(() -> new ResourceNotFoundException("Details not found"));
+                Optional<Adress> adressData = this.adressRepository.findById(idAdress);
+                if (adressData.isPresent()) {
+                    Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
+                    //  existingAdress.setUserDetails(existingUserDetails);
+                    existingEvent.setAdress(existingAdress);
+                    this.evenementRepository.save(existingEvent);
+                    this.adressRepository.save(existingAdress);
+                }
+            }
+            return "Details affected to details successfully!";
+        }
+
 }
+
+
