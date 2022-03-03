@@ -15,5 +15,8 @@ public interface MappersDto {
     EvenementDto EvenementToEvenementDto(Evenement evenement);
     Evenement EvenementDtoToEvenement(EvenementDto evenementDto);
 
+    ArchiveDto ArchiveToArchiveDto(Archive archive);
+    Archive ArchiveDtoToArchive(ArchiveDto archiveDto);
+
 
 }

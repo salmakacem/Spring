@@ -31,7 +31,7 @@ public class Evenement implements Serializable {
 
     @NonNull
     @Column(name = "statut")
-    private String statut;
+    private Boolean statut;
 
     @NonNull
     @Column(name = "date")
@@ -90,6 +90,7 @@ public class Evenement implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
+
 
 
 }
