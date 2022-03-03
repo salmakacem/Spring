@@ -15,5 +15,5 @@ public interface ArchiveService {
     String affectEventToArchive(long idEvent);
 
 
-    String UpdateByIdDto(ArchiveDto archiveDto ,long id);
+
 }

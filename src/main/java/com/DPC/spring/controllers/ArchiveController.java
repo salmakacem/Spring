@@ -56,30 +56,3 @@ public class ArchiveController {
 
 
 
-@RestController
-@RequestMapping("archive")
-public class ArchiveController {
-    @Autowired
-    ArchiveService archiveService;
-
-    @PostMapping
-    public ResponseEntity<?> saveAdressDto(@RequestBody ArchiveDto archiveDto){
-        ArchiveDto savedArchive =  this.archiveService.saveNewArchiveDto(archiveDto);
-        return new ResponseEntity<>(savedArchive, HttpStatus.CREATED);
-
-    }
-    @GetMapping("/GetAll")
-    public ResponseEntity<List<ArchiveDto>> getAllAdress()
-    {
-        List<ArchiveDto> listArchive = this.archiveService.getAllArchiveDto();
-        return new ResponseEntity<>(listArchive, HttpStatus.OK);
-    }
-    @PutMapping("Dto/{id}")
-    public ResponseEntity<MessageResponse> updateUserDto(@RequestBody ArchiveDto archiveDto , @PathVariable("id") long id){
-        String message = this.archiveService.UpdateByIdDto(archiveDto,id);
-        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
-
-    }
-
-}
-
