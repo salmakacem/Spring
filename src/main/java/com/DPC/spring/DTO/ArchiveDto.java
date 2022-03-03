@@ -10,6 +10,7 @@ import java.util.Date;
 public class ArchiveDto {
 
     private Long id;
+    private String description;
 
     private Date date_archivage;
 }

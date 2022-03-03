@@ -9,8 +9,11 @@ public interface ArchiveService {
     ArchiveDto saveNewArchiveDto(ArchiveDto archiveDto);
     List<ArchiveDto> getAllArchiveDto();
 
+
     ArchiveDto findArchiveByID(long id);
 
     String affectEventToArchive(long idEvent);
 
+
+    String UpdateByIdDto(ArchiveDto archiveDto ,long id);
 }
