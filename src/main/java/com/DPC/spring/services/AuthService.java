@@ -83,6 +83,7 @@ public class AuthService {
                         break;
                     case "admin":
                         Role adminRole = this.roleRepository.findByName(ERole.ADMIN)
+
                                 .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
                         roles.add(adminRole);
                         break;

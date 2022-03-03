@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -37,20 +38,13 @@ public class Archive implements Serializable {
     @JoinColumn(name = "event_id", referencedColumnName = "id")
     private Evenement evenement;
 
-    @Setter(value = AccessLevel.NONE)
-    @Basic(optional = false)
-    @CreationTimestamp
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt = new Date();
+
 
     @Setter(value = AccessLevel.NONE)
     @UpdateTimestamp
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
-
-
 
 
 }

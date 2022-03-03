@@ -4,6 +4,7 @@ import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.EvenementDto;
 import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.Adress;
+import com.DPC.spring.entities.Archive;
 import com.DPC.spring.entities.Evenement;
 import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -110,6 +112,8 @@ public class EvenementServiceImpl implements EvenementService {
             }
             return "Details affected to details successfully!";
         }
+
+
 
 }
 

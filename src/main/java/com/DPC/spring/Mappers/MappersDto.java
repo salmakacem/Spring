@@ -17,5 +17,8 @@ public interface MappersDto {
     ArchiveDto ArchiveToArchiveDto(Archive archive);
     Archive ArchiveDtoToArchive(ArchiveDto archiveDto);
 
+    ArchiveDto ArchiveToArchiveDto(Archive archive);
+    Archive ArchiveDtoToArchive(ArchiveDto archiveDto);
+
 
 }
