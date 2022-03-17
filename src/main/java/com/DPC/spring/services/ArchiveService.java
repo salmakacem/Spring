@@ -9,6 +9,13 @@ import java.util.List;
 public interface ArchiveService {
     ArchiveDto saveNewArchiveDto(ArchiveDto archiveDto);
     List<ArchiveDto> getAllArchiveDto();
-    String UpdateByIdDto(ArchiveDto archiveDto ,long id);
-    String deleteArchiveById(long id);
+
+    //String deleteArchiveById(long id);
+
+
+
+   // ArchiveDto findArchiveByID(long id);
+
+  //  String affectEventToArchive(long idEvent);
+
 }
