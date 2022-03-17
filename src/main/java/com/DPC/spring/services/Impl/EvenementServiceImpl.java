@@ -65,7 +65,7 @@ public class EvenementServiceImpl implements EvenementService {
             Evenement existingEvenement = eventData.orElseThrow(() -> new ResourceNotFoundException("Evenement not found"));
             existingEvenement.setBudget(evenementDto.getBudget());
             existingEvenement.setEvent_name(evenementDto.getEvent_name());
-            existingEvenement.setDescription(evenementDto.getDescription());
+            existingEvenement.setDescriptionEvent(evenementDto.getDescriptionEvent());
             existingEvenement.setStatut(evenementDto.getStatut());
             existingEvenement.setDate(evenementDto.getDate());
 
@@ -84,9 +84,9 @@ public class EvenementServiceImpl implements EvenementService {
         Optional<Evenement> eventData = this.evenementRepository.findById(id);
         if (eventData.isPresent()) {
             this.evenementRepository.deleteById(eventData.get().getId());
-            return "User deleted successfully!";
+            return "Event deleted successfully!";
         } else {
-            throw new ResourceNotFoundException("User not found");
+            throw new ResourceNotFoundException("Event not found");
         }
     }
 
@@ -110,6 +110,8 @@ public class EvenementServiceImpl implements EvenementService {
             }
             return "Details affected to details successfully!";
         }
+
+
 
 }
 

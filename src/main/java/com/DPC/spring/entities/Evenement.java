@@ -31,15 +31,15 @@ public class Evenement implements Serializable {
 
     @NonNull
     @Column(name = "statut")
-    private String statut;
+    private Boolean statut;
 
     @NonNull
     @Column(name = "date")
     private Date date;
 
     @NonNull
-    @Column(name = "Description")
-    private String description;
+    @Column(name = "DescriptionEvent")
+    private String descriptionEvent;
 
     @NonNull
     @Column(name = "image")

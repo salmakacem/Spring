@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -54,9 +55,9 @@ public class Application   extends SpringBootServletInitializer /* implements Ap
 //	public void run(ApplicationArguments args) throws Exception {
 //
 //		// Save roles
-//		Role superAdminRole = this.roleRepository.save(new Role(ERole.SUPER_ADMIN));
+//
 	//	Role adminRole = this.roleRepository.save(new Role(ERole.ADMIN));
-//		Role userRole = this.roleRepository.save(new Role(ERole.USER));
+//		Role adherentRole = this.roleRepository.save(new Role(ERole.Adherent));
 //		Role guestRole = this.roleRepository.save(new Role(ERole.GUEST));
 
 
@@ -81,9 +82,9 @@ public class Application   extends SpringBootServletInitializer /* implements Ap
 
 //		// ManyToMany Relations
 	//	Set<Role> roles = new HashSet<>();
-//		roles.add(superAdminRole);
+//
 	//	roles.add(adminRole);
-//		roles.add(userRole);
+//		roles.add(adherentRole);
 //		roles.add(guestRole);
 //		user1.setRoles(roles);
 	//	this.userRepository.save(user1);

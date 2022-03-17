@@ -3,6 +3,7 @@ package com.DPC.spring.controllers;
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.ArchiveDto;
 import com.DPC.spring.DTO.UserDetailsDto;
+import com.DPC.spring.entities.Evenement;
 import com.DPC.spring.payload.responses.MessageResponse;
 import com.DPC.spring.services.ArchiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class ArchiveController {
         String message = this.archiveService.UpdateByIdDto(archiveDto,id);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponse> deleteArchiveById(@PathVariable("id") long id)
+    {
+        String message = this.archiveService.deleteArchiveById(id);
+        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
 
 }

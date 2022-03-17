@@ -18,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user-details")
+@CrossOrigin("*")
 public class UserDetailsController {
 
     @Autowired
@@ -28,9 +29,10 @@ public class UserDetailsController {
         UserDetailsDto userDetailsData = this.userDetailsService.findUserDtoByID(id);
         return new ResponseEntity<>(userDetailsData, HttpStatus.OK);
     }
-    @PostMapping
+    @PostMapping("/ajoutd")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDetailsDto userDetailsDto){
         UserDetailsDto savedUser =  this.userDetailsService.saveNewUserDetailsDto(userDetailsDto);
+
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
@@ -49,7 +51,7 @@ public class UserDetailsController {
     }
 
 
-    @PostMapping("/")
+    @PostMapping("/ajoutdetails")
     public ResponseEntity<UserDetails> saveNewDetails(@RequestBody UserDetails userDetails)
     {
         UserDetails savedUserDetails =  this.userDetailsService.saveNewDetails(userDetails);

@@ -67,9 +67,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             existingUserDetails.setCIN(userDetailsDto.getCIN());
             existingUserDetails.setProfession(userDetailsDto.getProfession());
             existingUserDetails.setSexe(userDetailsDto.getSexe());
-            existingUserDetails.setAge(userDetailsDto.getAge());
+
             existingUserDetails.setDate_de_naissance(userDetailsDto.getDate_de_naissance());
-            existingUserDetails.setTéléphone(userDetailsDto.getTéléphone());
+            existingUserDetails.setTelephone(userDetailsDto.getTéléphone());
             // Change password if exist
 
             // save existingUser in the database
@@ -117,7 +117,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<UserDetails> userDetailsData = this.userDetailsRepository.findById(id);
         if (userDetailsData.isPresent()) {
             UserDetails existingUserDetails = userDetailsData.orElse(null);
-            existingUserDetails.setAge(userDetails.getAge());
+
                      // save existingUser in the database
             this.userDetailsRepository.save(existingUserDetails);
             // return statement

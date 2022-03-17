@@ -7,6 +7,7 @@ import com.DPC.spring.exceptions.EmailAlreadyUsedException;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.payload.requests.LoginRequest;
 import com.DPC.spring.payload.requests.RegisterRequest;
+import com.DPC.spring.payload.responses.LoginResponse;
 import com.DPC.spring.repositories.RoleRepository;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.security.jwt.JwtTokenUtils;
@@ -18,9 +19,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -40,15 +44,20 @@ public class AuthService {
 
     @Autowired
     JwtTokenUtils jwtTokenUtils;
-
-    public String login(LoginRequest loginRequest)
+    @Transactional
+    public LoginResponse login(LoginRequest loginRequest)
     {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return this.jwtTokenUtils.generateToken(userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername());
+        List<Role> roles= roleRepository.findByUsers(user);
+        userDetails.getAuthorities().stream().map(grantedAuthority -> grantedAuthority.getAuthority().toString()).collect(Collectors.toList());
+
+
+        return new LoginResponse(this.jwtTokenUtils.generateToken(userDetails),roles);
     }
 
     public String register(RegisterRequest registerRequest) throws EmailAlreadyUsedException {
@@ -68,26 +77,21 @@ public class AuthService {
         Set<Role> roles = new HashSet<>();
 
         // find Roles
-        /*if (registerRequestRoles == null) {
+        if (registerRequestRoles == null) {
             Role guestRole = this.roleRepository.findByName(ERole.GUEST)
                     .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
             roles.add(guestRole);
         } else {
             registerRequestRoles.forEach(role -> {
                 switch (role) {
-                    case "super-admin":
-                        Role superAdminRole = this.roleRepository.findByName(ERole.SUPER_ADMIN)
-                                .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
-                        roles.add(superAdminRole);
 
-                        break;
                     case "admin":
                         Role adminRole = this.roleRepository.findByName(ERole.ADMIN)
                                 .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
                         roles.add(adminRole);
                         break;
-                    case "user":
-                        Role userRole = this.roleRepository.findByName(ERole.USER)
+                    case "adherent":
+                        Role userRole = this.roleRepository.findByName(ERole.ADHERENT)
                                 .orElseThrow(() -> new ResourceNotFoundException("Error: Role is not found."));
                         roles.add(userRole);
                         break;
@@ -97,11 +101,12 @@ public class AuthService {
                         roles.add(guestRole);
                 }
             });
-        }*/
+        }
 
         // Affect User Roles
         user.setRoles(roles);
         this.userRepository.save(user);
         return "User registered successfully!";
     }
+
 }

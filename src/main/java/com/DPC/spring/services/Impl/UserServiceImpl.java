@@ -2,26 +2,24 @@ package com.DPC.spring.services.Impl;
 
 
 import com.DPC.spring.DTO.AdressDto;
+import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.Mappers.MappersDto;
-import com.DPC.spring.entities.Adress;
-import com.DPC.spring.entities.Role;
-import com.DPC.spring.entities.User;
-import com.DPC.spring.entities.UserDetails;
+import com.DPC.spring.entities.*;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
+import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.RoleRepository;
 import com.DPC.spring.repositories.UserDetailsRepository;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.loader.plan.spi.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +30,8 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
     @Autowired
     UserDetailsRepository userDetailsRepository;
-
+    @Autowired
+    AdressRepository adressRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -50,8 +49,7 @@ public class UserServiceImpl implements UserService {
         User user = mappersDto.UserDtoToUser(userDto);
         User saveUser = userRepository.save(user);
         UserDto userDto1 = mappersDto.UserToUserDto(saveUser);
-
-        return userDto1;
+                return userDto1;
     }
 
     @Override

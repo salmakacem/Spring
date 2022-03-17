@@ -11,11 +11,11 @@ public class EvenementDto {
 
     private String event_name;
 
-    private String statut;
+    private Boolean statut;
 
     private Date date;
 
-    private String description;
+    private String descriptionEvent;
 
 
     private String image;
