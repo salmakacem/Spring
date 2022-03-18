@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("*" )
 @RestController
 @RequestMapping("adress")
 public class AdressController {
@@ -25,26 +25,26 @@ public class AdressController {
         return new ResponseEntity<>(listAdress, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/find/{id}")
     public ResponseEntity<?> findAdressByID(@PathVariable("id") long id)
     {
         AdressDto adressDto = this.adressService.findAdressByID(id);
         return new ResponseEntity<>(adressDto, HttpStatus.OK);
     }
 
-    @GetMapping
+    @PutMapping("/update")
     public ResponseEntity<?> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){
         String AdressData = this.adressService.UpdateById(adressDto,id);
         return new ResponseEntity<>(AdressData, HttpStatus.OK);
 
     }
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<?> saveAdressDto(@RequestBody AdressDto adressDto){
         AdressDto savedAdress =  this.adressService.saveNewAdressDto(adressDto);
         return new ResponseEntity<>(savedAdress, HttpStatus.CREATED);
 
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<MessageResponse> deleteAdressById(@PathVariable("id") long id)
     {
         String message = this.adressService.deleteAdressById(id);

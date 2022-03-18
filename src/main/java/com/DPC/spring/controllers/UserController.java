@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("users")
+@CrossOrigin("*" )
 public class UserController {
 
     @Autowired
@@ -27,13 +28,13 @@ public class UserController {
         UserDto userData = this.userService.findUserDtoByID(id);
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
-    @PostMapping
+    @PostMapping("/ajout")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDto userDto){
         UserDto savedUser =  this.userService.saveNewUserDto(userDto);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
@@ -76,7 +77,7 @@ public class UserController {
 //        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<MessageResponse> deleteUserById(@PathVariable("id") long id)
     {
         String message = this.userService.deleteUserById(id);

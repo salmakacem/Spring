@@ -77,8 +77,6 @@ public class AdressServiceImpl implements AdressService {
            existingAdress.setZIP(adressDto.getZIP());
            existingAdress.setWork_adress(adressDto.getWork_adress());
            existingAdress.setHome_adress(adressDto.getHome_adress());
-           existingAdress.setCity_name(adressDto.getCity_name());
-           existingAdress.setCountry(adressDto.getCountry());
 
 
             this.adressRepository.save(existingAdress);
