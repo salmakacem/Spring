@@ -15,7 +15,7 @@ public class EvenementDto {
 
     private Date date;
 
-    private String description;
+    private String descriptionEvent;
 
 
     private String image;

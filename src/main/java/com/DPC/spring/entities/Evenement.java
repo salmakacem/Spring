@@ -38,8 +38,8 @@ public class Evenement implements Serializable {
     private Date date;
 
     @NonNull
-    @Column(name = "Description")
-    private String description;
+    @Column(name = "DescriptionEvent")
+    private String descriptionEvent;
 
     @NonNull
     @Column(name = "image")

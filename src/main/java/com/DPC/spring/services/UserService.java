@@ -22,4 +22,5 @@ public interface UserService {
     String affectUserToDetails(long idUser, long idDetails);
     User findByEmail(String email);
 
+
 }

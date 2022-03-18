@@ -31,6 +31,27 @@ public class Archive implements Serializable {
     @NonNull
     @Column(name = "date_archivage")
     private Date date_archivage;
+    @NonNull
+    @Column(name = "event_name")
+    private String event_name;
+    @NonNull
+    @Column(name = "statut")
+    private Boolean statut;
+    @NonNull
+    @Column(name = "date")
+    private Date date;
+
+    @NonNull
+    @Column(name = "DescriptionEvent")
+    private String descriptionEvent;
+
+    @NonNull
+    @Column(name = "image")
+    private String image;
+
+    @NonNull
+    @Column(name = "budget")
+    private Double budget;
 
 
     @JsonIgnore

@@ -11,13 +11,14 @@ import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("users")
-@CrossOrigin("*" )
+@RequestMapping("/users")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -30,11 +31,15 @@ public class UserController {
     }
     @PostMapping("/ajout")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDto userDto){
+
         UserDto savedUser =  this.userService.saveNewUserDto(userDto);
+
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
-    @PutMapping("/{id}/update")
+
+
+    @PutMapping("/{id}")
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
@@ -49,12 +54,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/")
-    public ResponseEntity<User> saveNewUser(@RequestBody User user)
-    {
-        User savedUser =  this.userService.saveNewUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers()
@@ -77,7 +76,7 @@ public class UserController {
 //        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteUserById(@PathVariable("id") long id)
     {
         String message = this.userService.deleteUserById(id);
