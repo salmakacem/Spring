@@ -41,25 +41,25 @@ public class ArchiveController {
         return new ResponseEntity<>(listArchive, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findARCHIVEByID(@PathVariable("id") long id) {
-        ArchiveDto archiveDto = this.archiveService.findArchiveByID(id);
-        return new ResponseEntity<>(archiveDto, HttpStatus.OK);
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponse> deleteArchiveById(@PathVariable("id") long id)
-    {
-        String message = this.archiveService.deleteArchiveById(id);
-        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<MessageResponse> archiver(long idEvent){
-        String EventData = this.archiveService.affectEventToArchive(idEvent);
-        return new ResponseEntity<>(new MessageResponse(EventData), HttpStatus.OK);
-
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> findARCHIVEByID(@PathVariable("id") long id) {
+//        ArchiveDto archiveDto = this.archiveService.findArchiveByID(id);
+//        return new ResponseEntity<>(archiveDto, HttpStatus.OK);
+//    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<MessageResponse> deleteArchiveById(@PathVariable("id") long id)
+//    {
+//        String message = this.archiveService.deleteArchiveById(id);
+//        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
+//    }
+//
+//    @PostMapping("/{id}")
+//    public ResponseEntity<MessageResponse> archiver(long idEvent){
+//        String EventData = this.archiveService.affectEventToArchive(idEvent);
+//        return new ResponseEntity<>(new MessageResponse(EventData), HttpStatus.OK);
+//
+//    }
 }
-
-
-
+//
+//
+//

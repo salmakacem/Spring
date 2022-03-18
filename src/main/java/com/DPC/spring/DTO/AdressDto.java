@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class AdressDto {
     private int id;
 
-    private String ZIP;
+    private String zip;
 
     private String home_adress;
 
