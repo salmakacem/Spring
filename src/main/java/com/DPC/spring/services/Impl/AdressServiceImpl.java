@@ -2,9 +2,11 @@ package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.EvenementDto;
+import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.Adress;
 import com.DPC.spring.entities.Evenement;
+import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.services.AdressService;
@@ -35,9 +37,10 @@ public class AdressServiceImpl implements AdressService {
     @Override
     public AdressDto saveNewAdressDto(AdressDto adressDto) {
         Adress adress = mappersDto.AdressDtoToAdress(adressDto);
-        Adress saveAdress=adressRepository.save(adress);
-        AdressDto adressDto1=mappersDto.AdressToAdressDto(saveAdress);
-        return adressDto1;
+        Adress saveadress = adressRepository.save(adress);
+        AdressDto adress1 = mappersDto.AdressToAdressDto(saveadress);
+
+        return adress1;
     }
 
     @Override
@@ -74,9 +77,14 @@ public class AdressServiceImpl implements AdressService {
         if (adressData.isPresent()) {
            Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
            existingAdress.setRegion(adressDto.getRegion());
-           existingAdress.setZIP(adressDto.getZIP());
+           existingAdress.setZip(adressDto.getZip());
            existingAdress.setWork_adress(adressDto.getWork_adress());
            existingAdress.setHome_adress(adressDto.getHome_adress());
+           existingAdress.setCity_name(adressDto.getCity_name());
+           existingAdress.setCountry(adressDto.getCountry());
+           existingAdress.setEtats(adressDto.getEtats());
+
+
 
 
             this.adressRepository.save(existingAdress);

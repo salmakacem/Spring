@@ -3,6 +3,7 @@ package com.DPC.spring.controllers;
 
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.EvenementDto;
+import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.payload.responses.MessageResponse;
 import com.DPC.spring.services.AdressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 @CrossOrigin("*" )
 @RestController
 @RequestMapping("adress")
+@CrossOrigin("*")
 public class AdressController {
     @Autowired
     AdressService adressService;
@@ -40,8 +42,9 @@ public class AdressController {
     }
     @PostMapping("/save")
     public ResponseEntity<?> saveAdressDto(@RequestBody AdressDto adressDto){
-        AdressDto savedAdress =  this.adressService.saveNewAdressDto(adressDto);
-        return new ResponseEntity<>(savedAdress, HttpStatus.CREATED);
+        AdressDto savedadress =  this.adressService.saveNewAdressDto(adressDto);
+
+        return new ResponseEntity<>(savedadress, HttpStatus.CREATED);
 
     }
     @DeleteMapping("/delete/{id}")

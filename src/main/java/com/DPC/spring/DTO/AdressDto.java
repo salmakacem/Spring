@@ -12,13 +12,15 @@ public class AdressDto {
 
     private String zip;
 
+    private String city_name;
+
     private String home_adress;
 
     private String work_adress;
 
     private String region;
 
+    private String country;
+
     private String etats;
-
-
 }
