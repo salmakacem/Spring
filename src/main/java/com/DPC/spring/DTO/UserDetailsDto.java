@@ -19,11 +19,11 @@ public class UserDetailsDto {
 
     private int age;
 
-    private String téléphone;
+    private String telephone;
 
     private Date date_de_naissance;
 
-    private String nationalité;
+    private String nationalite;
 
     private String sexe;
 

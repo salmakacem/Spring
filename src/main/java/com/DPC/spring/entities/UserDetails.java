@@ -24,8 +24,6 @@ public class UserDetails implements Serializable {
     @NonNull
     @Column(name = "CIN")
     private int CIN;
-
-
     @NonNull
     @Column(name = "telephone")
     private String telephone;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class AdressDto {
     private int id;
 
-    private String ZIP;
+    private String zip;
 
     private String city_name;
 
@@ -21,4 +21,6 @@ public class AdressDto {
     private String region;
 
     private String country;
+
+    private String etats;
 }

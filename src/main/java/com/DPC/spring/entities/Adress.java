@@ -23,8 +23,8 @@ public class Adress implements Serializable {
     private Long id;
 
     @NonNull
-    @Column(name = "ZIP")
-    private String ZIP;
+    @Column(name = "zip")
+    private String zip;
     @NonNull
     @Column(name = "city_name")
     private String city_name;
@@ -36,6 +36,7 @@ public class Adress implements Serializable {
     @NonNull
     @Column(name = "work_adress")
     private String work_adress;
+
     @NonNull
     @Column(name = "region")
     private String region;
@@ -43,6 +44,10 @@ public class Adress implements Serializable {
     @NonNull
     @Column(name = "country")
     private String country;
+
+    @NonNull
+    @Column(name = "etats")
+    private String etats;
 
 
 //    @OneToOne(mappedBy = "adress")
