@@ -5,12 +5,14 @@ import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.payload.responses.MessageResponse;
+import com.DPC.spring.services.MailService;
 import com.DPC.spring.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
-    public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
+
+
+
+    @GetMapping("/getUserById")
+    public ResponseEntity<?> findUserDto(@RequestParam long id){
         UserDto userData = this.userService.findUserDtoByID(id);
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
@@ -35,6 +40,7 @@ public class UserController {
         UserDto savedUser =  this.userService.saveNewUserDto(userDto);
 
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+
 
     }
 

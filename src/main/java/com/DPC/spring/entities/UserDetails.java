@@ -32,7 +32,7 @@ public class UserDetails implements Serializable {
     private Date date_de_naissance;
     @NonNull
     @Column(name = "nationalite")
-    private String nationalité;
+    private String nationalite;
     @NonNull
     @Column(name = "sexe")
     private String sexe;
