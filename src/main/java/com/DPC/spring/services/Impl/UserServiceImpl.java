@@ -11,10 +11,13 @@ import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.RoleRepository;
 import com.DPC.spring.repositories.UserDetailsRepository;
 import com.DPC.spring.repositories.UserRepository;
+import com.DPC.spring.services.MailService;
 import com.DPC.spring.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.loader.plan.spi.Return;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Transactional
 public class UserServiceImpl implements UserService {
+    @Autowired
+    MailServiceImpl mailservice;
+
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
@@ -49,7 +55,9 @@ public class UserServiceImpl implements UserService {
         User user = mappersDto.UserDtoToUser(userDto);
         User saveUser = userRepository.save(user);
         UserDto userDto1 = mappersDto.UserToUserDto(saveUser);
+
                 return userDto1;
+
     }
 
     @Override
@@ -61,6 +69,7 @@ public class UserServiceImpl implements UserService {
                 .map(mappersDto::UserToUserDto)
                 .collect(Collectors.toList());
 
+
     }
     @Override
     public String UpdateByIdDto(UserDto userDto , long id) {
@@ -71,7 +80,6 @@ public class UserServiceImpl implements UserService {
                 existingUser.setLastName(userDto.getLastName());
                 existingUser.setEmail(userDto.getEmail());
                 existingUser.setPassword(userDto.getPassword());
-                existingUser.setTelephone(userDto.getTelephone());
 
                // Change password if exist
            if(!userDto.getPassword().isEmpty())
@@ -93,7 +101,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserDtoByID(long id) {
 
+
         User userData = this.userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Error: User is not found."));
+        this.mailservice.EnvoyerEmail(userData);
         return mappersDto.UserToUserDto(userData);
     }
 
@@ -115,7 +125,6 @@ public class UserServiceImpl implements UserService {
         return userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
     }
-
 
 //    @Override
 //    public String updateUserByID(long id, User user)
@@ -196,31 +205,6 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
-
-    @Override
-    public List<UserDto> getAllUsersDto() {
-        List<User> listUser  =this.userRepository.findAll();
-        return listUser
-                .stream()
-                .map(mappersDto::UserToUserDto)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    public UserDto findUserByEmail(String email) {
-        User userData = null;
-        try {
-            userData = userRepository.findByEmail(email);
-        } catch (Exception e) {
-            throw e;
-        }
-        return mappersDto.UserToUserDto(userData);
-    }
-
-
-
-
 
 
 }

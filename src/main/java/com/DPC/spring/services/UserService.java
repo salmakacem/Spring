@@ -1,11 +1,7 @@
 package com.DPC.spring.services;
 
-import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.User;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface UserService {

@@ -19,5 +19,5 @@ public class UserDto {
 
     private String password;
 
-    private String telephone;
+    private String resetPasswordToken;
 }

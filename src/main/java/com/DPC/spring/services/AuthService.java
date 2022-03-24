@@ -21,8 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -109,5 +111,31 @@ public class AuthService {
         this.userRepository.save(user);
         return "User registered successfully!";
     }
+
+    public Optional<User> requestPasswordReset(String mail) {
+        return userRepository.findOneByEmailIgnoreCase(mail)
+                .map(user -> {
+                    user.setResetKey(RandomUtil.generateResetKey());
+
+                    user.setResetDate(Instant.now());
+                    this.userRepository.saveAndFlush(user);
+
+                    return user;
+                });
+    }
+
+    public Optional<User> completePasswordReset(String newPassword, String key) {
+         //log.debug("Reset user password for reset key {}", key);
+        return userRepository.findOneByResetKey(key)
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .map(user -> {
+                    user.setPassword(passwordEncoder.encode(newPassword));
+                    user.setResetKey(null);
+                    user.setResetDate(null);
+                    this.userRepository.saveAndFlush(user);
+                    return user;
+                });
+    }
+
 
 }

@@ -5,12 +5,14 @@ import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.payload.responses.MessageResponse;
+import com.DPC.spring.services.MailService;
 import com.DPC.spring.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +26,21 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("user/{id}")
-    public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
+
+
+
+    @GetMapping("/getUserById")
+    public ResponseEntity<?> findUserDto(@RequestParam long id){
         UserDto userData = this.userService.findUserDtoByID(id);
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
-
-
     @PostMapping("/ajout")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDto userDto){
 
         UserDto savedUser =  this.userService.saveNewUserDto(userDto);
 
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+
 
     }
 
@@ -56,16 +60,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/GetAllU")
-    public ResponseEntity<List<UserDto>> getAllUser()
-    {
-        List<UserDto> listuSERS = this.userService.getAllUsersDto();
-        return new ResponseEntity<>(listuSERS, HttpStatus.OK);
-    }
-
-
-
-
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers()
@@ -80,15 +74,6 @@ public class UserController {
         User user = this.userService.findUserByID(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
-
-
-    @GetMapping("/find/{email}")
-    public ResponseEntity<?> findUserByEmail(@PathVariable("email") String email)
-    {
-        UserDto userDto = this.userService.findUserByEmail(email);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
-    }
-
 
 //    @PutMapping("/{id}")
 //    public ResponseEntity<MessageResponse> updateUserByID(@PathVariable("id") long id, @RequestBody User user)
@@ -117,6 +102,5 @@ public class UserController {
         String message = this.userService.affectUserToDetails(idUser, idDetails);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
-
 
 }
