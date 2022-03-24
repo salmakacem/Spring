@@ -6,9 +6,12 @@ import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.Adress;
 import com.DPC.spring.entities.Evenement;
+import com.DPC.spring.entities.User;
 import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
+import com.DPC.spring.repositories.UserDetailsRepository;
+import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.AdressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class AdressServiceImpl implements AdressService {
 
     @Autowired
     AdressRepository adressRepository;
+
+    @Autowired
+    UserDetailsRepository userDetailsRepository;
 
     public AdressServiceImpl(MappersDto mappersDto) {
         this.mappersDto = mappersDto;
@@ -96,5 +102,15 @@ public class AdressServiceImpl implements AdressService {
             throw new ResourceNotFoundException("adress not found");
         }
 
+    }
+
+    public AdressDto findAdresseByUser(long idUserd)
+    {
+        Optional<UserDetails> userData = this.userDetailsRepository.findById(idUserd);
+        UserDetails existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//      System.out.println(existingUser.getEmail());
+        Optional<Adress> adressData = this.adressRepository.findByUserDetails(existingUser.getId());
+        Adress adress = adressData.orElseThrow(() -> new ResourceNotFoundException("User details not found"));
+        return mappersDto.AdressToAdressDto(adress);
     }
 }

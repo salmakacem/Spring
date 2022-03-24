@@ -22,7 +22,7 @@ import java.util.Set;
 @SpringBootApplication
 @EnableSwagger2
 
-public class Application   extends SpringBootServletInitializer /* implements ApplicationRunner */{
+public class Application   extends SpringBootServletInitializer/* implements ApplicationRunner*/ {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -51,20 +51,20 @@ public class Application   extends SpringBootServletInitializer /* implements Ap
 		return passwordEncoderBean;
 	}
 
-//	@Override
-//	public void run(ApplicationArguments args) throws Exception {
-//
-//		// Save roles
-//
-	//	Role adminRole = this.roleRepository.save(new Role(ERole.ADMIN));
-//		Role adherentRole = this.roleRepository.save(new Role(ERole.Adherent));
-//		Role guestRole = this.roleRepository.save(new Role(ERole.GUEST));
+	/*@Override
+	public void run(ApplicationArguments args) throws Exception {
 
+		// Save roles*/
 
-		// Save users
+	//Role adminRole = this.roleRepository.save(new Role(ERole.ADMIN));
+////		//Role adherentRole = this.roleRepository.save(new Role(ERole.Adherent));
+////		//Role guestRole = this.roleRepository.save(new Role(ERole.GUEST));
+////
+////
+////		 //Save users
 //		User user1 = new User("marwen", "sghair",
 //				"marwen@dipower.fr",
-//			this.passwordEncoder().encode("12345"));
+//			this.passwordEncoder().encode("12345"),"23456789");
 
 		// Save users details
 //		Calendar dateOfBirth = Calendar.getInstance();
@@ -73,23 +73,23 @@ public class Application   extends SpringBootServletInitializer /* implements Ap
 //				"Tunisien", "developpeur", "Homme",
 //				" ",  "203336668", new Date( "11/11/1994")
 //				);
+//
+//		// Affect user1 to userDetails1
+//		user1.setDetails(userDetails1); // Set child reference
+//		userDetails1.setUser(user1); // Set parent reference
+		//this.userRepository.save(user1);//
 
-		// Affect user1 to userDetails1
-		/*user1.setDetails(userDetails1); // Set child reference
-		userDetails1.setUser(user1); // Set parent reference
-		this.userRepository.save(user1);//
-*/
 
 //		// ManyToMany Relations
-	//	Set<Role> roles = new HashSet<>();
-//
-	//	roles.add(adminRole);
-//		roles.add(adherentRole);
-//		roles.add(guestRole);
-//		user1.setRoles(roles);
+		//Set<Role> roles = new HashSet<>();
+//////
+		//roles.add(adminRole);
+//////		roles.add(adherentRole);
+//////		roles.add(guestRole);
+//////		user1.setRoles(roles);
 	//	this.userRepository.save(user1);
-//
+////
 //
 //	}
-//	}
+	//}
 }

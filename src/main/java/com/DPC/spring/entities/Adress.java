@@ -63,6 +63,12 @@ public class Adress implements Serializable {
 //    private Association association;
 
 
+    @OneToOne(mappedBy = "adress")
+    private UserDetails userDetails;
+
+
+
+
 
 
     @Setter(value = AccessLevel.NONE)
@@ -77,4 +83,6 @@ public class Adress implements Serializable {
     @Column(name = "updat_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatAt = new Date();
+
+
 }

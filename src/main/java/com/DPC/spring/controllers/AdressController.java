@@ -12,13 +12,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin("*" )
 @RestController
 @RequestMapping("adress")
-@CrossOrigin("*")
+
 public class AdressController {
     @Autowired
     AdressService adressService;
+
+
+    @GetMapping("/find/{iduser}")
+    public ResponseEntity<?> findAdresseByUser(@PathVariable("iduser") long iduser){
+        AdressDto adresseData = this.adressService.findAdresseByUser(iduser);
+        return new ResponseEntity<>(adresseData, HttpStatus.OK);
+    }
 
     @GetMapping("/GetAll")
     public ResponseEntity<List<AdressDto>> getAllAdress()
@@ -27,14 +34,18 @@ public class AdressController {
         return new ResponseEntity<>(listAdress, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+
+
+    @GetMapping("/trouve/{id}")
     public ResponseEntity<?> findAdressByID(@PathVariable("id") long id)
     {
         AdressDto adressDto = this.adressService.findAdressByID(id);
         return new ResponseEntity<>(adressDto, HttpStatus.OK);
     }
 
-    @GetMapping
+
+
+    @PutMapping("/update")
     public ResponseEntity<?> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){
         String AdressData = this.adressService.UpdateById(adressDto,id);
         return new ResponseEntity<>(AdressData, HttpStatus.OK);
@@ -47,7 +58,7 @@ public class AdressController {
         return new ResponseEntity<>(savedadress, HttpStatus.CREATED);
 
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<MessageResponse> deleteAdressById(@PathVariable("id") long id)
     {
         String message = this.adressService.deleteAdressById(id);

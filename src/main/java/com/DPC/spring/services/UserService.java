@@ -16,7 +16,12 @@ public interface UserService {
     String deleteUserById( long id);
     String affectUserToRole(long idUser, long idRole);
     String affectUserToDetails(long idUser, long idDetails);
+
     User findByEmail(String email);
+
+     List<UserDto> getAllUsersDto();
+
+    UserDto findUserByEmail(String email);
 
 
 }

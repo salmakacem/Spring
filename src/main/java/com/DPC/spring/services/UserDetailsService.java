@@ -19,5 +19,7 @@ public interface UserDetailsService {
     String deleteUserDetailsById(long id);
     String affectDetailsToAdres(long idAdress, long idDetails);
 
+    UserDetailsDto findUserDetailsByUser(long idUser);
+
 
 }
