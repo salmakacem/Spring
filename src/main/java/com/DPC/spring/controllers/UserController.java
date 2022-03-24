@@ -24,11 +24,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping
+    @GetMapping("user/{id}")
     public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
         UserDto userData = this.userService.findUserDtoByID(id);
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
+
+
     @PostMapping("/ajout")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDto userDto){
 
@@ -54,6 +56,16 @@ public class UserController {
     }
 
 
+    @GetMapping("/GetAllU")
+    public ResponseEntity<List<UserDto>> getAllUser()
+    {
+        List<UserDto> listuSERS = this.userService.getAllUsersDto();
+        return new ResponseEntity<>(listuSERS, HttpStatus.OK);
+    }
+
+
+
+
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getAllUsers()
@@ -68,6 +80,15 @@ public class UserController {
         User user = this.userService.findUserByID(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
+
+    @GetMapping("/find/{email}")
+    public ResponseEntity<?> findUserByEmail(@PathVariable("email") String email)
+    {
+        UserDto userDto = this.userService.findUserByEmail(email);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
 
 //    @PutMapping("/{id}")
 //    public ResponseEntity<MessageResponse> updateUserByID(@PathVariable("id") long id, @RequestBody User user)
@@ -96,5 +117,6 @@ public class UserController {
         String message = this.userService.affectUserToDetails(idUser, idDetails);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
+
 
 }

@@ -37,11 +37,17 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @NonNull
+    @Column(name = "telephone")
+    private String telephone;
+
     // OneToOne Relations
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails details;
+
+
 
 
 
@@ -85,4 +91,7 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
+
+
+
 }

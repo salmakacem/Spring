@@ -14,4 +14,6 @@ public interface AdressService {
     String UpdateById(AdressDto adressDto, long id);
 
     AdressDto findAdressByID(long id);
+
+    AdressDto findAdresseByUser(long idUser);
 }

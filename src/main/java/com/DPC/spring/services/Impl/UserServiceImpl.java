@@ -71,6 +71,7 @@ public class UserServiceImpl implements UserService {
                 existingUser.setLastName(userDto.getLastName());
                 existingUser.setEmail(userDto.getEmail());
                 existingUser.setPassword(userDto.getPassword());
+                existingUser.setTelephone(userDto.getTelephone());
 
                // Change password if exist
            if(!userDto.getPassword().isEmpty())
@@ -114,6 +115,7 @@ public class UserServiceImpl implements UserService {
         return userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
     }
+
 
 //    @Override
 //    public String updateUserByID(long id, User user)
@@ -194,4 +196,31 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public List<UserDto> getAllUsersDto() {
+        List<User> listUser  =this.userRepository.findAll();
+        return listUser
+                .stream()
+                .map(mappersDto::UserToUserDto)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        User userData = null;
+        try {
+            userData = userRepository.findByEmail(email);
+        } catch (Exception e) {
+            throw e;
+        }
+        return mappersDto.UserToUserDto(userData);
+    }
+
+
+
+
+
+
 }

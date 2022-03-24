@@ -24,11 +24,13 @@ public class UserDetailsController {
     @Autowired
     UserDetailsService userDetailsService;
 
-    @GetMapping
-    public ResponseEntity<?> findUserDetailsDto(@PathVariable("id") long id){
-        UserDetailsDto userDetailsData = this.userDetailsService.findUserDtoByID(id);
+
+    @GetMapping("/fin/{iduser}")
+    public ResponseEntity<?> findUserDetailsByUser(@PathVariable("iduser") long iduser){
+        UserDetailsDto userDetailsData = this.userDetailsService.findUserDetailsByUser(iduser);
         return new ResponseEntity<>(userDetailsData, HttpStatus.OK);
     }
+
     @PostMapping("/ajoutd")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDetailsDto userDetailsDto){
         UserDetailsDto savedUser =  this.userDetailsService.saveNewUserDetailsDto(userDetailsDto);
@@ -65,12 +67,14 @@ public class UserDetailsController {
         return new ResponseEntity<>(listUsersDetails, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/detail/{id}")
     public ResponseEntity<?> findUserDetailsByID(@PathVariable("id") long id)
     {
         UserDetails userDetails = this.userDetailsService.findUserDetailsByID(id);
         return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<MessageResponse> updateUserDetailsByID(@PathVariable("id") long id, @RequestBody UserDetails userDetails)

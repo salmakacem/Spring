@@ -18,7 +18,7 @@ public class UserDetailsDto {
     private int CIN;
 
 
-    private String telephone;
+
 
     private Date date_de_naissance;
 

@@ -15,10 +15,17 @@ import java.util.List;
 @CrossOrigin("*" )
 @RestController
 @RequestMapping("adress")
-@CrossOrigin("*")
+
 public class AdressController {
     @Autowired
     AdressService adressService;
+
+
+    @GetMapping("/find/{iduser}")
+    public ResponseEntity<?> findAdresseByUser(@PathVariable("iduser") long iduser){
+        AdressDto adresseData = this.adressService.findAdresseByUser(iduser);
+        return new ResponseEntity<>(adresseData, HttpStatus.OK);
+    }
 
     @GetMapping("/GetAll")
     public ResponseEntity<List<AdressDto>> getAllAdress()
@@ -27,12 +34,16 @@ public class AdressController {
         return new ResponseEntity<>(listAdress, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
+
+
+    @GetMapping("/trouve/{id}")
     public ResponseEntity<?> findAdressByID(@PathVariable("id") long id)
     {
         AdressDto adressDto = this.adressService.findAdressByID(id);
         return new ResponseEntity<>(adressDto, HttpStatus.OK);
     }
+
+
 
     @PutMapping("/update")
     public ResponseEntity<?> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){

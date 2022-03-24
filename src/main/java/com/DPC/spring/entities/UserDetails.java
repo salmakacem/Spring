@@ -24,15 +24,13 @@ public class UserDetails implements Serializable {
     @NonNull
     @Column(name = "CIN")
     private int CIN;
-    @NonNull
-    @Column(name = "telephone")
-    private String telephone;
+
     @NonNull
     @Column(name = "date_de_naissance")
     private Date date_de_naissance;
     @NonNull
     @Column(name = "nationalite")
-    private String nationalité;
+    private String nationalite;
     @NonNull
     @Column(name = "sexe")
     private String sexe;

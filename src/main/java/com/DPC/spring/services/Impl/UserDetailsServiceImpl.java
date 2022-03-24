@@ -10,6 +10,7 @@ import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.UserDetailsRepository;
+import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.UserDetailsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     UserDetailsRepository userDetailsRepository;
     @Autowired
     AdressRepository adressRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     final MappersDto mappersDto;
 
@@ -69,7 +73,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             existingUserDetails.setSexe(userDetailsDto.getSexe());
 
             existingUserDetails.setDate_de_naissance(userDetailsDto.getDate_de_naissance());
-            existingUserDetails.setTelephone(userDetailsDto.getTelephone());
+
             // Change password if exist
 
             // save existingUser in the database
@@ -156,5 +160,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return "Details affected to details successfully!";
     }
+
+    public UserDetailsDto findUserDetailsByUser(long idUser)
+    {
+        Optional<User> userData = this.userRepository.findById(idUser);
+        User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+//      System.out.println(existingUser.getEmail());
+        Optional<UserDetails> userDetailsData = this.userDetailsRepository.findByUser(existingUser.getId());
+        UserDetails userDetails= userDetailsData.orElseThrow(() -> new ResourceNotFoundException("User details not found"));
+        return mappersDto.UserDetailsToUserDetailsDto(userDetails);
+    }
+
 
 }

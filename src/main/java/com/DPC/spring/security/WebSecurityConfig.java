@@ -61,6 +61,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/ajout").permitAll()
                 .antMatchers("/user-details/ajoutd").permitAll()
                 .antMatchers("/adress/save").permitAll()
+                .antMatchers("/users/GetAll").permitAll()
+
+                .antMatchers("/adress/find/{iduser}").permitAll()
+                .antMatchers("/adress/trouve/{id}").permitAll()
+                .antMatchers("/adress/GetAll").permitAll()
+                .antMatchers("/user-details/GetAll").permitAll()
+
+                .antMatchers("/user-details/fin/{iduser}").permitAll()
+                .antMatchers("/find/{email}").permitAll()
+
 
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 // all other requests need to be authenticated
