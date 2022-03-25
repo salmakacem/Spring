@@ -107,11 +107,11 @@ public class UserServiceImpl implements UserService {
         return mappersDto.UserToUserDto(userData);
     }
 
-    @Override
-    public User saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return this.userRepository.save(user);
-    }
+//    @Override
+//    public User saveNewUser(User user) {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        return this.userRepository.save(user);
+//    }
 
     @Override
     public List<User> getAllUsers() {
