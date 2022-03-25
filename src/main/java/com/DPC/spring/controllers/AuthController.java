@@ -54,12 +54,13 @@ public class AuthController {
 
 
     @PostMapping(path = "/reset-password/finish")
-    public void finishPasswordReset(@RequestParam String key,@RequestParam String newPassword) {
+    public String finishPasswordReset(@RequestParam String key,@RequestParam String newPassword) {
         Optional<User> user =
                 authService.completePasswordReset(newPassword, key);
 
         if (!user.isPresent()) {
             throw new ResourceNotFoundException("Error: user is not found.");
         }
+        return ("mot de passe changé");
     }
 }
