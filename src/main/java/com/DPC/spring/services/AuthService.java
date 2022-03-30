@@ -74,6 +74,9 @@ public class AuthService {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
+
+
+
         // Traitement des Roles
         Set<String> registerRequestRoles = registerRequest.getRoles();
         Set<Role> roles = new HashSet<>();
