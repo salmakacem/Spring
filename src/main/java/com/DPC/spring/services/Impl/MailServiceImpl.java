@@ -30,7 +30,6 @@ public class MailServiceImpl implements MailService {
                     //+ "<br>Votre mot de passe est : \n"  +user.getResetKey()+ "\n"
                     + "<br>Vous pouvez accéder au espace changer mdp via l'adresse suivante : \n" + "<a href=\"http://localhost:4200/reset/finish?key=" +user.getResetKey()+ "\n"
                     + " <br><br> Cordialement,";
-
             mimeMessageHelper.setText(content);
             mimeMessageHelper.setText("<html><body><p>" + content
                             + "</p> </body></html>",

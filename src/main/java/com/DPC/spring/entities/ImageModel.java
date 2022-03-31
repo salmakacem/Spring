@@ -1,96 +1,66 @@
 package com.DPC.spring.entities;
-
-
-
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 
 import javax.persistence.*;
 
 
-@NoArgsConstructor
+@Entity
 @AllArgsConstructor
 @Data
-@Entity
 @Table(name = "imagetable")
 public class ImageModel  implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
 
-    @Column(name = "id")
-    private Long id;
+    private String id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "type")
     private String type;
 
-    @Column(name = "picByte", length = 1000)
     @Lob
-    private byte[] picByte;
+    private byte[] data;
 
+    public ImageModel() {
+    }
 
-    @Column(name = "archiver")
-    private Boolean archiver ;
+    public ImageModel(String name, String type, byte[] data) {
+        this.name = name;
+        this.type = type;
+        this.data = data;
+    }
 
+    public String getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
 
-//    public Boolean getArchiver() {
-//        return archiver;
-//    }
-//
-//    public void setArchiver(Boolean archiver) {
-//        this.archiver = archiver;
-//    }
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getType() {
+        return type;
+    }
 
-    @OneToOne
-    private User user ;
+    public void setType(String type) {
+        this.type = type;
+    }
 
-//
-//    public Long getId() {
-//        return id;
-//    }
-//
-//    public void setId(Long id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-//
-//    public byte[] getPicByte() {
-//        return picByte;
-//    }
-//
-//    public void setPicByte(byte[] picByte) {
-//        this.picByte = picByte;
-//    }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }
