@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         User user = mappersDto.UserDtoToUser(userDto);
         User saveUser = userRepository.save(user);
         UserDto userDto1 = mappersDto.UserToUserDto(saveUser);
-
+        //this.mailservice.verificationcode(saveUser);
                 return userDto1;
 
     }

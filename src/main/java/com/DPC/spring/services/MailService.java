@@ -4,4 +4,5 @@ import com.DPC.spring.entities.User;
 
 public interface MailService {
     void EnvoyerEmail(User user);
+    void verificationcode(User user);
 }

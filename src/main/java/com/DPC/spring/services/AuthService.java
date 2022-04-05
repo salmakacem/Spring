@@ -1,5 +1,6 @@
 package com.DPC.spring.services;
 
+import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.ERole;
 import com.DPC.spring.entities.Role;
 import com.DPC.spring.entities.User;
@@ -11,6 +12,7 @@ import com.DPC.spring.payload.responses.LoginResponse;
 import com.DPC.spring.repositories.RoleRepository;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.security.jwt.JwtTokenUtils;
+import com.DPC.spring.services.Impl.MailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,6 +48,15 @@ public class AuthService {
 
     @Autowired
     JwtTokenUtils jwtTokenUtils;
+    @Autowired
+    MailServiceImpl mailservice;
+
+    final MappersDto mappersDto;
+
+    public AuthService(MappersDto mappersDto) {
+        this.mappersDto = mappersDto;
+    }
+
     @Transactional
     public LoginResponse login(LoginRequest loginRequest)
     {
@@ -112,6 +123,8 @@ public class AuthService {
         // Affect User Roles
         user.setRoles(roles);
         this.userRepository.save(user);
+
+        //return mappersDto.UserToUserDto(userData);
         return "User registered successfully!";
     }
 
@@ -119,10 +132,29 @@ public class AuthService {
         return userRepository.findOneByEmailIgnoreCase(mail)
                 .map(user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
-
                     user.setResetDate(Instant.now());
                     this.userRepository.saveAndFlush(user);
-
+                    return user;
+                });
+    }
+    public Optional<User> resetcode(String mail) {
+        return userRepository.findOneByEmailIgnoreCase(mail)
+                .map(user -> {
+                    user.setResetKey(RandomUtil.generateResetKey());
+                    user.setResetDate(Instant.now());
+                    this.userRepository.saveAndFlush(user);
+                    return user;
+                });
+    }
+    public Optional<User> finishcode(String key,String code ) {
+        //log.debug("Reset user password for reset key {}", key);
+        return userRepository.findOneByResetKey(key)
+                .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
+                .map(user -> {
+                    user.setCodeverification(code);
+                    user.setResetKey(null);
+                    user.setResetDate(null);
+                    this.userRepository.saveAndFlush(user);
                     return user;
                 });
     }

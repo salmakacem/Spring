@@ -26,7 +26,7 @@ import java.util.zip.Inflater;
 
 
 @RestController
-@RequestMapping(value = "api/images")
+@RequestMapping(value = "/images")
 @CrossOrigin("*")
 @Controller
 public class ImageController {
