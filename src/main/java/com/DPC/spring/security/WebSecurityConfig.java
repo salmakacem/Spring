@@ -78,7 +78,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user-details/ajoutd").permitAll()
                 .antMatchers("/adress/save").permitAll()
                 .antMatchers("/users/GetAll").permitAll()
-
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/adress/find/{iduser}").permitAll()
                 .antMatchers("/adress/trouve/{id}").permitAll()
                 .antMatchers("/adress/GetAll").permitAll()

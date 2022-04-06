@@ -51,7 +51,6 @@ public class UserController {
 
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
