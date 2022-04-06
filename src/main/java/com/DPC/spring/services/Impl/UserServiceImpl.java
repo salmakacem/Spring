@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @Transactional
-public class UserServiceImpl implements UserService {
+public  class UserServiceImpl implements UserService {
     @Autowired
     MailServiceImpl mailservice;
 
@@ -79,13 +79,11 @@ public class UserServiceImpl implements UserService {
                 existingUser.setFirstName(userDto.getFirstName());
                 existingUser.setLastName(userDto.getLastName());
                 existingUser.setEmail(userDto.getEmail());
-                existingUser.setPassword(userDto.getPassword());
+
+                existingUser.setTelephone(userDto.getTelephone());
 
                // Change password if exist
-           if(!userDto.getPassword().isEmpty())
-            {
-                existingUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            }
+
            // save existingUser in the database
             this.userRepository.save(existingUser);
             // return statement
@@ -204,6 +202,27 @@ public class UserServiceImpl implements UserService {
             throw e;
         }
         return user;
+    }
+
+
+    @Override
+    public List<UserDto> getAllUsersDto() {
+        List<User> listUser  =this.userRepository.findAll();
+        return listUser
+                .stream()
+                .map(mappersDto::UserToUserDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        User userData = null;
+        try {
+            userData = userRepository.findByEmail(email);
+        } catch (Exception e) {
+            throw e;
+        }
+        return mappersDto.UserToUserDto(userData);
     }
 
 

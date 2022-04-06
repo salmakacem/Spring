@@ -41,9 +41,7 @@ public class Adress implements Serializable {
     @Column(name = "region")
     private String region;
 
-    @NonNull
-    @Column(name = "country")
-    private String country;
+
 
     @NonNull
     @Column(name = "etats")

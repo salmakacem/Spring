@@ -38,7 +38,7 @@ public class UserDetailsController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 
     }
-    @PutMapping("Dto/{id}")
+    @PutMapping("/Dto/{id}")
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDetailsDto userDetailsDto , @PathVariable("id") long id){
         String message = this.userDetailsService.UpdateByIdDto(userDetailsDto,id);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);

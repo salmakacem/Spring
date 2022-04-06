@@ -42,8 +42,9 @@ public class AdressServiceImpl implements AdressService {
 
     @Override
     public AdressDto saveNewAdressDto(AdressDto adressDto) {
-        Adress adress = mappersDto.AdressDtoToAdress(adressDto);
-        Adress saveadress = adressRepository.save(adress);
+
+        Adress adresse = mappersDto.AdressDtoToAdress(adressDto);
+        Adress saveadress = adressRepository.save(adresse);
         AdressDto adress1 = mappersDto.AdressToAdressDto(saveadress);
 
         return adress1;
@@ -87,7 +88,6 @@ public class AdressServiceImpl implements AdressService {
            existingAdress.setWork_adress(adressDto.getWork_adress());
            existingAdress.setHome_adress(adressDto.getHome_adress());
            existingAdress.setCity_name(adressDto.getCity_name());
-           existingAdress.setCountry(adressDto.getCountry());
            existingAdress.setEtats(adressDto.getEtats());
 
 

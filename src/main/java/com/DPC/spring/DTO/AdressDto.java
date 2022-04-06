@@ -20,7 +20,7 @@ public class AdressDto {
 
     private String region;
 
-    private String country;
+
 
     private String etats;
 }

@@ -61,15 +61,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/ajout").permitAll()
                 .antMatchers("/user-details/ajoutd").permitAll()
                 .antMatchers("/adress/save").permitAll()
-                .antMatchers("/users/GetAll").permitAll()
+                .antMatchers("/users/GetAllU").permitAll()
 
                 .antMatchers("/adress/find/{iduser}").permitAll()
                 .antMatchers("/adress/trouve/{id}").permitAll()
                 .antMatchers("/adress/GetAll").permitAll()
                 .antMatchers("/user-details/GetAll").permitAll()
 
+
                 .antMatchers("/user-details/fin/{iduser}").permitAll()
-                .antMatchers("/find/{email}").permitAll()
+                .antMatchers("/users/find/{email}").permitAll()
+                .antMatchers("/users/update/{id}").permitAll()
+                .antMatchers("/users/del/{id}").permitAll()
+                .antMatchers("/adress/delete/{id}").permitAll()
+                .antMatchers("/user-details/{id}").permitAll()
+                .antMatchers("/adress/updat/{id}").permitAll()
+                .antMatchers("/user-details/Dto/{id}").permitAll()
+                .antMatchers("/users/update/{id}").permitAll()
 
 
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()

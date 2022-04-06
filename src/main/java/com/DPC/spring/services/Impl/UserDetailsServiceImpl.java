@@ -73,6 +73,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             existingUserDetails.setSexe(userDetailsDto.getSexe());
 
             existingUserDetails.setDate_de_naissance(userDetailsDto.getDate_de_naissance());
+            existingUserDetails.setNationalite(userDetailsDto.getNationalite());
+            existingUserDetails.setStatut_social(userDetailsDto.getStatut_social());
 
             // Change password if exist
 

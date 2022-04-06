@@ -22,7 +22,7 @@ import java.util.Set;
 @SpringBootApplication
 @EnableSwagger2
 
-public class Application   extends SpringBootServletInitializer/* implements ApplicationRunner*/ {
+public class Application   extends SpringBootServletInitializer /*implements ApplicationRunner*/ {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -56,15 +56,15 @@ public class Application   extends SpringBootServletInitializer/* implements App
 
 		// Save roles*/
 
-	//Role adminRole = this.roleRepository.save(new Role(ERole.ADMIN));
+	 //// Role adminRole = this.roleRepository.save(new Role(ERole.ADMIN));
 ////		//Role adherentRole = this.roleRepository.save(new Role(ERole.Adherent));
 ////		//Role guestRole = this.roleRepository.save(new Role(ERole.GUEST));
 ////
 ////
 ////		 //Save users
-//		User user1 = new User("marwen", "sghair",
-//				"marwen@dipower.fr",
-//			this.passwordEncoder().encode("12345"),"23456789");
+		//User user1 = new User("marwen", "sghair",
+				//"marwen@dipower.fr",
+			//this.passwordEncoder().encode("12345"),"23456789");
 
 		// Save users details
 //		Calendar dateOfBirth = Calendar.getInstance();
@@ -87,7 +87,7 @@ public class Application   extends SpringBootServletInitializer/* implements App
 //////		roles.add(adherentRole);
 //////		roles.add(guestRole);
 //////		user1.setRoles(roles);
-	//	this.userRepository.save(user1);
+		//this.userRepository.save(user1);
 ////
 //
 //	}
