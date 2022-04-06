@@ -22,7 +22,9 @@ import java.util.Set;
 @SpringBootApplication
 @EnableSwagger2
 
-public class Application   extends SpringBootServletInitializer /*implements ApplicationRunner*/ {
+
+public class Application   extends SpringBootServletInitializer /*implements ApplicationRunner */{
+
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -51,8 +53,8 @@ public class Application   extends SpringBootServletInitializer /*implements App
 		return passwordEncoderBean;
 	}
 
-	/*@Override
-	public void run(ApplicationArguments args) throws Exception {
+//	@Override
+	//public void run(ApplicationArguments args) throws Exception {
 
 		// Save roles*/
 
@@ -63,8 +65,10 @@ public class Application   extends SpringBootServletInitializer /*implements App
 ////
 ////		 //Save users
 		//User user1 = new User("marwen", "sghair",
-				//"marwen@dipower.fr",
-			//this.passwordEncoder().encode("12345"),"23456789");
+
+			//	"marwen@dipower.fr",
+			//this.passwordEncoder().encode("12345"));
+
 
 		// Save users details
 //		Calendar dateOfBirth = Calendar.getInstance();
@@ -77,11 +81,11 @@ public class Application   extends SpringBootServletInitializer /*implements App
 //		// Affect user1 to userDetails1
 //		user1.setDetails(userDetails1); // Set child reference
 //		userDetails1.setUser(user1); // Set parent reference
-		//this.userRepository.save(user1);//
+	//	this.userRepository.save(user1);//
 
 
 //		// ManyToMany Relations
-		//Set<Role> roles = new HashSet<>();
+	//	Set<Role> roles = new HashSet<>();
 //////
 		//roles.add(adminRole);
 //////		roles.add(adherentRole);

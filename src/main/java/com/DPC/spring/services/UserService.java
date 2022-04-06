@@ -9,7 +9,7 @@ public interface UserService {
     List<UserDto> getAllUserDto();
     UserDto findUserDtoByID(long id);
     String UpdateByIdDto(UserDto userDto , long id);
-    User saveNewUser(User user);
+
     List<User> getAllUsers();
     User findUserByID( long id);
    // String updateUserByID(@PathVariable("id") long id, @RequestBody User user);
@@ -19,11 +19,12 @@ public interface UserService {
 
     User findByEmail(String email);
 
+
     List<UserDto> getAllUsersDto();
 
 
 
-    UserDto findUserByEmail(String email);
+
 
 
 

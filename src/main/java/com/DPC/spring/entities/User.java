@@ -11,13 +11,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "details", "posts",  "roles"})
 public class User implements Serializable {
@@ -44,6 +44,12 @@ public class User implements Serializable {
     private String telephone;
 
     @Size(max = 20)
+    @Column(name = "codeverification", length = 20)
+    @JsonIgnore
+    private String codeverification;
+
+
+    @Size(max = 20)
     @Column(name = "reset_key", length = 20)
     @JsonIgnore
     private String resetKey;
@@ -57,6 +63,10 @@ public class User implements Serializable {
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails details;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image", referencedColumnName = "id")
+    private ImageModel imageModel;
 
 
 
@@ -99,4 +109,7 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
+
+
+
 }
