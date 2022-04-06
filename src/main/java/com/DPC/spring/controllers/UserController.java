@@ -34,13 +34,13 @@ public class UserController {
     UserRepository userRepository;
 
 
-
-
-    @GetMapping("/getUserById")
-    public ResponseEntity<?> findUserDto(@RequestParam long id){
+    @GetMapping("user/{id}")
+    public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
         UserDto userData = this.userService.findUserDtoByID(id);
         return new ResponseEntity<>(userData, HttpStatus.OK);
     }
+
+
     @PostMapping("/ajout")
     public ResponseEntity<?> saveUserDDto(@RequestBody UserDto userDto){
 
@@ -51,19 +51,33 @@ public class UserController {
 
     }
 
-    @PutMapping("/{id}")
+
+
+    @PutMapping("/update/{id}")
+
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 
     }
 
-    @GetMapping("/GetAll")
-    public ResponseEntity<List<UserDto>> getAll()
+
+
+    @GetMapping("/GetAllU")
+    public ResponseEntity<List<UserDto>> getAllUser()
     {
-        List<UserDto> listUsers = this.userService.getAllUserDto();
-        return new ResponseEntity<>(listUsers, HttpStatus.OK);
+        List<UserDto> listuSERS = this.userService.getAllUsersDto();
+        return new ResponseEntity<>(listuSERS, HttpStatus.OK);
     }
+
+
+    @GetMapping("/find/{email}")
+    public ResponseEntity<?> findUserByEmail(@PathVariable("email") String email)
+    {
+        UserDto userDto = this.userService.findUserByEmail(email);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
 
 
 
@@ -88,7 +102,7 @@ public class UserController {
 //        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 //    }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/del/{id}")
     public ResponseEntity<MessageResponse> deleteUserById(@PathVariable("id") long id)
     {
         String message = this.userService.deleteUserById(id);

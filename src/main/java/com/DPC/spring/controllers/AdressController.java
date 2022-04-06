@@ -21,6 +21,8 @@ public class AdressController {
     AdressService adressService;
 
 
+
+
     @GetMapping("/find/{iduser}")
     public ResponseEntity<?> findAdresseByUser(@PathVariable("iduser") long iduser){
         AdressDto adresseData = this.adressService.findAdresseByUser(iduser);
@@ -45,10 +47,10 @@ public class AdressController {
 
 
 
-    @PutMapping("/update")
-    public ResponseEntity<?> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){
-        String AdressData = this.adressService.UpdateById(adressDto,id);
-        return new ResponseEntity<>(AdressData, HttpStatus.OK);
+    @PutMapping("/updat/{id}")
+    public ResponseEntity<MessageResponse> updateAdressDto(@RequestBody AdressDto adressDto,@PathVariable("id") long id){
+        String message = this.adressService.UpdateById(adressDto,id);
+        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 
     }
     @PostMapping("/save")
