@@ -68,7 +68,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<UserDetails> userDetailsData = this.userDetailsRepository.findById(id);
         if (userDetailsData.isPresent()) {
             UserDetails existingUserDetails = userDetailsData.orElseThrow(() -> new ResourceNotFoundException("UserDetails not found"));
-            existingUserDetails.setCIN(userDetailsDto.getCIN());
+
             existingUserDetails.setProfession(userDetailsDto.getProfession());
             existingUserDetails.setSexe(userDetailsDto.getSexe());
 

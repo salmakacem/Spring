@@ -22,7 +22,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
 import java.util.zip.Inflater;
+
+import static com.DPC.spring.services.Impl.FileStorageService.compressBytes;
 
 
 @RestController
@@ -109,8 +112,8 @@ public class ImageController {
 //    @PostMapping("/upload")
 //    public String uplaodImage(@RequestPart("imageFile") MultipartFile file, @RequestParam String email) throws IOException {
 //        User u = this.userRepository.findByEmail(email);
-//        ImageModel img = new ImageModel(null,file.getOriginalFilename(),file.getContentType(),
-//                compressBytes(file.getBytes()), null, u);
+//        ImageModel img = new ImageModel(null,file.getOriginalFilename(),file.getContentType(),null);
+//
 //        ImageModel imgexist = imageRepository.findByUser(u);
 //        if (imgexist != null) {
 //            imageRepository.delete(imgexist);
@@ -156,24 +159,24 @@ public class ImageController {
 //
 //
 //
-//    // compress the image bytes before soring it in the database
-//    public static byte[] compressBytes(byte[] data) {
-//        Deflater deflater = new Deflater();
-//        deflater.setInput(data);
-//        deflater.finish();
-//
-//        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
-//        byte[] buffer = new byte[1024];
-//        while (!deflater.finished()) {
-//            int count = deflater.deflate(buffer);
-//            outputStream.write(buffer, 0, count);
-//        }
-//        try {
-//            outputStream.close();
-//        } catch (IOException e) {
-//        }
-//        return outputStream.toByteArray();
-//    }
+    // compress the image bytes before soring it in the database
+    public static byte[] compressBytes(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        return outputStream.toByteArray();
+    }
 //
 //    // uncompress the image bytes before returning it to the angular application
 //    public static byte[] decompressBytes(byte[] data) {

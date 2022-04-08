@@ -22,10 +22,6 @@ public class UserDetails implements Serializable {
     private long id;
 
     @NonNull
-    @Column(name = "CIN")
-    private int CIN;
-
-    @NonNull
     @Column(name = "date_de_naissance")
     private Date date_de_naissance;
     @NonNull
@@ -42,6 +38,11 @@ public class UserDetails implements Serializable {
     private String profession;
 
 
+
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image", referencedColumnName = "id")
+    private ImageModel imageModel;
 
     // OneToOne Relations
     @OneToOne(mappedBy = "details")
