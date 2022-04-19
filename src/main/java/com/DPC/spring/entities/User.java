@@ -43,6 +43,9 @@ public class User implements Serializable {
     @Column(name = "telephone")
     private String telephone;
 
+
+
+
     @Size(max = 20)
     @Column(name = "codeverification", length = 20)
     @JsonIgnore
@@ -56,6 +59,58 @@ public class User implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    public String getpassword() {
+        return password;
+    }
+
+    public void setpassword(String password) {
+        this.password = password;
+    }
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getPictype() {
+        return pictype;
+    }
+
+    public void setPictype(String pictype) {
+        this.pictype = pictype;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
+    @Column(name = "pic")
+    private String pic;
+
+    @Column(name = "pictype")
+    private String pictype;
+
+    @Column(name = "picByte", length = 100000)
+    private byte[] picByte;
+
+
 
     // OneToOne Relations
     @JsonIgnore
@@ -63,10 +118,10 @@ public class User implements Serializable {
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails details;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image", referencedColumnName = "id")
-    private ImageModel imageModel;
+//    @JsonIgnore
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "image", referencedColumnName = "id")
+//    private ImageModel imageModel;
 
 
 

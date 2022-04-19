@@ -1,14 +1,21 @@
 package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.entities.User;
+import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.MailService;
+import com.DPC.spring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -16,6 +23,8 @@ public class MailServiceImpl implements MailService {
     JavaMailSender mailSender;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
     public void EnvoyerEmail(User user) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
@@ -26,7 +35,7 @@ public class MailServiceImpl implements MailService {
             mimeMessageHelper.setFrom("contact@dsms.world");
             mimeMessageHelper.setTo("selma.kacem@istic.ucar.tn");
             String url = "http://localhost:4200/motdepasse";
-            String content = "Bonjour ( Mme), " + user.getEmail()
+            String content = "Bonjour, " + user.getEmail()
                     //+ "<br>Votre mot de passe est : \n"  +user.getResetKey()+ "\n"
                     + "<br>Vous pouvez accéder au espace changer mdp via l'adresse suivante : \n" + "<a href=\"http://localhost:4200/reset/finish?key=" + user.getResetKey() + "\n"
                     + " <br><br> Cordialement,";
@@ -49,7 +58,7 @@ public class MailServiceImpl implements MailService {
                 mimeMessageHelper.setFrom("contact@dsms.world");
                 mimeMessageHelper.setTo(user.getEmail());
                 String url = "http://localhost:4200/motdepasse";
-                String content = "Bonjour ( Mme), "+user.getEmail()
+                String content = "Bonjour, "+user.getEmail()
                         + "<br>Votre code est : \n"  +user.getResetKey()+ "\n"
                        // + "<br>Vous pouvez accéder au espace changer mdp via l'adresse suivante : \n" + "<a href=\"http://localhost:4200/reset/finish?key=" +user.getResetKey()+ "\n"
                         + " <br><br> Cordialement,";

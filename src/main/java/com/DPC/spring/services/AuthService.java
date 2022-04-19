@@ -83,7 +83,7 @@ public class AuthService {
         user.setFirstName(registerRequest.getFirstName());
         user.setLastName(registerRequest.getLastName());
         user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setpassword(passwordEncoder.encode(registerRequest.getPassword()));
 
 
 
@@ -164,7 +164,7 @@ public class AuthService {
         return userRepository.findOneByResetKey(key)
                 .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
                 .map(user -> {
-                    user.setPassword(passwordEncoder.encode(newPassword));
+                    user.setpassword(passwordEncoder.encode(newPassword));
                     user.setResetKey(null);
                     user.setResetDate(null);
                     this.userRepository.saveAndFlush(user);

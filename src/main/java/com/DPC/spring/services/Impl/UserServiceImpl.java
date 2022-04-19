@@ -48,7 +48,11 @@ public  class UserServiceImpl implements UserService {
     public UserServiceImpl(MappersDto mappersDto) {
         this.mappersDto = mappersDto;
     }
-
+    @Override
+    public List<User> AjoutClient(User c) {
+        this.userRepository.save(c);
+        return  userRepository.findAll();
+    }
     @Override
     public UserDto saveNewUserDto(UserDto userDto) {
 
@@ -56,14 +60,14 @@ public  class UserServiceImpl implements UserService {
         User saveUser = userRepository.save(user);
         UserDto userDto1 = mappersDto.UserToUserDto(saveUser);
         //this.mailservice.verificationcode(saveUser);
-                return userDto1;
+        return userDto1;
 
     }
 
     @Override
     public List<UserDto> getAllUserDto() {
 
-        List<User> listUser  =this.userRepository.findAll();
+        List<User> listUser = this.userRepository.findAll();
         return listUser
                 .stream()
                 .map(mappersDto::UserToUserDto)
@@ -71,29 +75,30 @@ public  class UserServiceImpl implements UserService {
 
 
     }
+
     @Override
-    public String UpdateByIdDto(UserDto userDto , long id) {
-            Optional<User> userData = this.userRepository.findById(id);
-            if (userData.isPresent()) {
-                User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
-                existingUser.setFirstName(userDto.getFirstName());
-                existingUser.setLastName(userDto.getLastName());
-                existingUser.setEmail(userDto.getEmail());
+    public String UpdateByIdDto(UserDto userDto, long id) {
+        Optional<User> userData = this.userRepository.findById(id);
+        if (userData.isPresent()) {
+            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            existingUser.setFirstName(userDto.getFirstName());
+            existingUser.setLastName(userDto.getLastName());
+            existingUser.setEmail(userDto.getEmail());
 
-                existingUser.setTelephone(userDto.getTelephone());
+            existingUser.setTelephone(userDto.getTelephone());
 
-               // Change password if exist
+            // Change password if exist
 
-           // save existingUser in the database
+            // save existingUser in the database
             this.userRepository.save(existingUser);
             // return statement
             return "User updated successfully!";
-       } else {
+        } else {
             throw new ResourceNotFoundException("User not found");
         }
 
 
-        }
+    }
 
 
     @Override
@@ -148,8 +153,7 @@ public  class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public String deleteUserById(long id)
-    {
+    public String deleteUserById(long id) {
         Optional<User> userData = this.userRepository.findById(id);
         if (userData.isPresent()) {
             this.userRepository.deleteById(id);
@@ -177,7 +181,7 @@ public  class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  String affectUserToDetails(long idUser, long idDetails) {
+    public String affectUserToDetails(long idUser, long idDetails) {
         Optional<User> userData = this.userRepository.findById(idUser);
         if (userData.isPresent()) {
             User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -207,7 +211,7 @@ public  class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsersDto() {
-        List<User> listUser  =this.userRepository.findAll();
+        List<User> listUser = this.userRepository.findAll();
         return listUser
                 .stream()
                 .map(mappersDto::UserToUserDto)
@@ -225,5 +229,29 @@ public  class UserServiceImpl implements UserService {
         return mappersDto.UserToUserDto(userData);
     }
 
+    @Override
+    public void updateResetPasswordToken(String token, String email)    {
+        Optional<User> i = userRepository.findUserByEmail(email);
+        if (i.isPresent()) {
+
+
+            i.get().setResetPasswordToken(token);
+            this.userRepository.save(i.get());
+
+        }
+    };
+    @Override
+    public Optional<User> getByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token);
+    }
+    @Override
+    public void updatePassword(User user, String newPassword) {
+         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+         String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setpassword(newPassword);
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
 
 }
