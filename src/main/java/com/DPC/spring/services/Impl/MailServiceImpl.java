@@ -1,14 +1,21 @@
 package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.entities.User;
+import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.MailService;
+import com.DPC.spring.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 @Service
 public class MailServiceImpl implements MailService {
@@ -16,6 +23,8 @@ public class MailServiceImpl implements MailService {
     JavaMailSender mailSender;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
     public void EnvoyerEmail(User user) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {

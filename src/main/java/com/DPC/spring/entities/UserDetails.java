@@ -38,12 +38,6 @@ public class UserDetails implements Serializable {
     private String profession;
 
 
-
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "image", referencedColumnName = "id")
-    private ImageModel imageModel;
-
     // OneToOne Relations
     @OneToOne(mappedBy = "details")
     private User user;

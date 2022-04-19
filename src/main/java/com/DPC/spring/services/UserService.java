@@ -3,6 +3,7 @@ package com.DPC.spring.services;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.User;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     UserDto saveNewUserDto(UserDto userDto);
@@ -24,8 +25,10 @@ public interface UserService {
     UserDto findUserByEmail(String email);
 
 
-
-
+    List <User> AjoutClient(User c);
+    void updateResetPasswordToken(String token, String email);
+    Optional<User> getByResetPasswordToken(String token);
+    void updatePassword (User user, String newPassword);
 
 
 

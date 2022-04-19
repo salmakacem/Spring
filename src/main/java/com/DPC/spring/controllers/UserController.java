@@ -3,6 +3,8 @@ package com.DPC.spring.controllers;
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
+import com.DPC.spring.entities.ImageModel;
+import com.DPC.spring.entities.ResetPassword;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.payload.responses.MessageResponse;
 import com.DPC.spring.repositories.UserRepository;
@@ -11,17 +13,28 @@ import com.DPC.spring.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterOutputStream;
 
 @RestController
 @RequestMapping("/users")
@@ -32,7 +45,8 @@ public class UserController {
     UserService userService;
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("user/{id}")
     public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
@@ -123,4 +137,113 @@ public class UserController {
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
 
+    @PostMapping("/upload_photo_c")
+    public User uplaodImage(@RequestParam("id") long id,@RequestPart("file") MultipartFile file) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        // ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
+        //      compressBytes(file.getBytes()));
+        //  imageRepository.save(img);
+        User cli= this.userService.findUserByID(id);
+        cli.setPic(file.getOriginalFilename());
+        cli.setPictype(file.getContentType());
+        cli.setPicByte(compress(file.getBytes()));
+        userRepository.save(cli);
+        return cli;
+    }
+
+    public static byte[] compress(byte[] in) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DeflaterOutputStream defl = new DeflaterOutputStream(out);
+            defl.write(in);
+            defl.flush();
+            defl.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(150);
+            return null;
+        }
+    }
+
+
+    public static byte[] decompress(byte[] in) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InflaterOutputStream infl = new InflaterOutputStream(out);
+            infl.write(in);
+            infl.flush();
+            infl.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(150);
+            return null;
+        }
+    }
+    @GetMapping(path = { "/get_photo_c/{id}" })
+    public ImageModel getImage(@PathVariable("id") Long id) throws IOException {
+        User inter= this.userService.findUserByID(id);
+        if(inter.getPic()!=null) {
+            ImageModel img = new ImageModel(inter.getPic(), inter.getPictype(),
+                    decompress(inter.getPicByte()));
+            return img;
+        }
+        else{
+            return new ImageModel(null, null,
+                    null);
+        }
+    }
+
+    @RequestMapping(value="/clients/resetPassword",method=RequestMethod.POST)
+    public boolean resetPassword(@RequestBody ResetPassword passwordReset ){
+        Optional<User> existeClient=userRepository.findById(passwordReset.getId());
+        System.out.println(existeClient.get().getpassword());
+        System.out.println((passwordReset.getPasswordA()));
+        if (!existeClient.get().getpassword().equals(passwordReset.getPasswordA())){
+            return false ;}
+        else {
+            existeClient.get().setpassword(passwordReset.getPasswordN());
+            userService.AjoutClient(existeClient.get());
+            return true;
+        }
+    }
+    public static String alphaNumericString(int len) {
+        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rnd = new Random();
+
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        }
+        return sb.toString();
+    }
+    @PostMapping("/clients")
+    private List<User> save_client(@RequestBody User user) throws MessagingException, ParseException {
+
+        this.userService.AjoutClient(user);
+        user.setEmail(user.getFirstName()+'_'+user.getId());
+        user.setpassword(alphaNumericString(10));
+        this.userService.AjoutClient(user);
+
+        MimeMessage message =mailSender.createMimeMessage();
+        MimeMessageHelper helper =new MimeMessageHelper(message,true);
+
+        String mailSubject = "bienvenu chez Sharing Technologies" ;
+        String  mailContent=  "<p><b>Votre nom d'utilisateur est :</b>"+user.getEmail()+"</p>";
+        mailContent += "<p><b>Votre mot de passe est :</b>"+user.getpassword()+"</p>";
+        mailContent += "<hr><img src:='cid:logoSharing'</>";
+
+        helper.setTo(user.getEmail());
+        helper.setSubject(mailSubject);
+        helper.setText(mailContent, true);
+
+        ClassPathResource path = new ClassPathResource("/static/sharing.gif");
+        helper.addInline("logoSharing", path);
+        mailSender.send(message);
+
+        return this.userService.getAllUsers();
+    }
 }
