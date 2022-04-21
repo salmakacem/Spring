@@ -46,8 +46,8 @@ public class Evenement implements Serializable {
     private String image;
 
     @NonNull
-    @Column(name = "budget")
-    private Double budget;
+    @Column(name = "Adressevent")
+    private String Adressevent;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
@@ -59,10 +59,6 @@ public class Evenement implements Serializable {
     private Set<User> users = new HashSet<>();
 
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "adress_id", referencedColumnName = "id")
-    private Adress adress;
 
 
     @JsonIgnore

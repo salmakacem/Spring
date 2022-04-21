@@ -62,9 +62,9 @@ public class EvenementController {
     }
 
 
-    @PutMapping("/affect-adress/{idAdress}/{idEvent}")
-    public ResponseEntity<MessageResponse> affectEvenementToAdres(long idAdress, long idEvent) {
-        String message = this.evenementService.affectEventToAdress(idAdress, idEvent);
-        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
-    }
+//    @PutMapping("/affect-adress/{idAdress}/{idEvent}")
+//    public ResponseEntity<MessageResponse> affectEvenementToAdres(long idAdress, long idEvent) {
+//        String message = this.evenementService.affectEventToAdress(idAdress, idEvent);
+//        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
+//    }
 }

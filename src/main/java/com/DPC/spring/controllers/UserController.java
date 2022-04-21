@@ -197,53 +197,23 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value="/clients/resetPassword",method=RequestMethod.POST)
-    public boolean resetPassword(@RequestBody ResetPassword passwordReset ){
-        Optional<User> existeClient=userRepository.findById(passwordReset.getId());
-        System.out.println(existeClient.get().getpassword());
-        System.out.println((passwordReset.getPasswordA()));
-        if (!existeClient.get().getpassword().equals(passwordReset.getPasswordA())){
-            return false ;}
-        else {
-            existeClient.get().setpassword(passwordReset.getPasswordN());
-            userService.AjoutClient(existeClient.get());
-            return true;
-        }
+//    @RequestMapping(value="/clients/resetPassword",method=RequestMethod.POST)
+//    public boolean resetPassword(@RequestBody ResetPassword passwordReset ,@RequestParam String email){
+//        Optional<User> existeClient=userRepository.findOneByEmailIgnoreCase(email);
+//
+//        if (!existeClient.get().getpassword().equals(passwordReset.getPasswordA())){
+//            return false ;
+//        }
+//        else {
+//            existeClient.get().setpassword(passwordReset.getPasswordN());
+//            userService.AjoutClient(existeClient.get());
+//            return true;
+//        }
+//    }
+
+    @PostMapping(path = "/clients/resetPassword")
+    public String changePassword(@RequestParam String email ,@RequestParam String currentPassword,@RequestParam String newPassword) {
+        return   this.userService.changePassword(email,currentPassword,newPassword);
     }
-    public static String alphaNumericString(int len) {
-        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        Random rnd = new Random();
 
-        StringBuilder sb = new StringBuilder(len);
-        for (int i = 0; i < len; i++) {
-            sb.append(AB.charAt(rnd.nextInt(AB.length())));
-        }
-        return sb.toString();
-    }
-    @PostMapping("/clients")
-    private List<User> save_client(@RequestBody User user) throws MessagingException, ParseException {
-
-        this.userService.AjoutClient(user);
-        user.setEmail(user.getFirstName()+'_'+user.getId());
-        user.setpassword(alphaNumericString(10));
-        this.userService.AjoutClient(user);
-
-        MimeMessage message =mailSender.createMimeMessage();
-        MimeMessageHelper helper =new MimeMessageHelper(message,true);
-
-        String mailSubject = "bienvenu chez Sharing Technologies" ;
-        String  mailContent=  "<p><b>Votre nom d'utilisateur est :</b>"+user.getEmail()+"</p>";
-        mailContent += "<p><b>Votre mot de passe est :</b>"+user.getpassword()+"</p>";
-        mailContent += "<hr><img src:='cid:logoSharing'</>";
-
-        helper.setTo(user.getEmail());
-        helper.setSubject(mailSubject);
-        helper.setText(mailContent, true);
-
-        ClassPathResource path = new ClassPathResource("/static/sharing.gif");
-        helper.addInline("logoSharing", path);
-        mailSender.send(message);
-
-        return this.userService.getAllUsers();
-    }
 }

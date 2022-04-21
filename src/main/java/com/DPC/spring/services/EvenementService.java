@@ -13,6 +13,6 @@ public interface EvenementService {
     EvenementDto findEventByID(long id);
     String UpdateById(EvenementDto evenementDto , long id);
     String deleteEventById(long id);
-    String affectEventToAdress(long idAdress, long idEvent);
+    //String affectEventToAdress(long idAdress, long idEvent);
 
 }

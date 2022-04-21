@@ -48,11 +48,25 @@ public  class UserServiceImpl implements UserService {
     public UserServiceImpl(MappersDto mappersDto) {
         this.mappersDto = mappersDto;
     }
-    @Override
-    public List<User> AjoutClient(User c) {
-        this.userRepository.save(c);
-        return  userRepository.findAll();
+
+    public String changePassword(String email ,String currentPassword, String newPassword) {
+        User user = userRepository.findByEmail(email);
+
+
+        if (!passwordEncoder.matches(currentPassword, user.getpassword())) {
+            throw new ResourceNotFoundException("mot de passe incorrect");
+        }
+        String  encryptedPassword=passwordEncoder.encode(newPassword);
+        user.setpassword(encryptedPassword);
+        this.userRepository.saveAndFlush(user);
+        return "Password updated successfully!";
     }
+
+//    @Override
+//    public List<User> AjoutClient(User c) {
+//        this.userRepository.save(c);
+//        return  userRepository.findAll();
+//    }
     @Override
     public UserDto saveNewUserDto(UserDto userDto) {
 
@@ -229,21 +243,6 @@ public  class UserServiceImpl implements UserService {
         return mappersDto.UserToUserDto(userData);
     }
 
-    @Override
-    public void updateResetPasswordToken(String token, String email)    {
-        Optional<User> i = userRepository.findUserByEmail(email);
-        if (i.isPresent()) {
-
-
-            i.get().setResetPasswordToken(token);
-            this.userRepository.save(i.get());
-
-        }
-    };
-    @Override
-    public Optional<User> getByResetPasswordToken(String token) {
-        return userRepository.findByResetPasswordToken(token);
-    }
     @Override
     public void updatePassword(User user, String newPassword) {
          BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

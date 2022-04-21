@@ -1,7 +1,7 @@
 package com.DPC.spring.entities;
 
 public class ResetPassword {
-    private long id;
+
     private String passwordA;
     private String passwordN;
 
@@ -21,11 +21,5 @@ public class ResetPassword {
         this.passwordN = passwordN;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 }

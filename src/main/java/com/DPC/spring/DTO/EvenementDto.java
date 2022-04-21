@@ -20,5 +20,5 @@ public class EvenementDto {
 
     private String image;
 
-    private Double budget;
+    private String Adressevent;
 }
