@@ -23,11 +23,7 @@ public interface UserService {
 
     List<UserDto> getAllUsersDto();
     UserDto findUserByEmail(String email);
-
-
-    List <User> AjoutClient(User c);
-    void updateResetPasswordToken(String token, String email);
-    Optional<User> getByResetPasswordToken(String token);
+    String changePassword(String email ,String currentClearTextPassword, String newPassword);
     void updatePassword (User user, String newPassword);
 
 
