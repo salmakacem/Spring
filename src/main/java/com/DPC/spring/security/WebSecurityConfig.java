@@ -99,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/adress/updat/{id}").permitAll()
                 .antMatchers("/user-details/Dto/{id}").permitAll()
                 .antMatchers("/users/update/{id}").permitAll()
+                .antMatchers("/event/updat/{id}").permitAll()
 
 
 
