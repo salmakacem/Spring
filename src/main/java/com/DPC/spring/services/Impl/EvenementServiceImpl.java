@@ -2,11 +2,9 @@ package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.EvenementDto;
+import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.Mappers.MappersDto;
-import com.DPC.spring.entities.Adress;
-import com.DPC.spring.entities.Archive;
-import com.DPC.spring.entities.Evenement;
-import com.DPC.spring.entities.UserDetails;
+import com.DPC.spring.entities.*;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.EvenementRepository;
@@ -65,10 +63,12 @@ public class EvenementServiceImpl implements EvenementService {
         Optional<Evenement> eventData = this.evenementRepository.findById(id);
         if (eventData.isPresent()) {
             Evenement existingEvenement = eventData.orElseThrow(() -> new ResourceNotFoundException("Evenement not found"));
+
             existingEvenement.setAdressevent(evenementDto.getAdressevent());
-            existingEvenement.setEvent_name(evenementDto.getEvent_name());
+
+            existingEvenement.setNom_event(evenementDto.getNom_event());
             existingEvenement.setDescriptionEvent(evenementDto.getDescriptionEvent());
-            existingEvenement.setStatut(evenementDto.getStatut());
+
             existingEvenement.setDate(evenementDto.getDate());
 
             this.evenementRepository.save(existingEvenement);
@@ -90,7 +90,13 @@ public class EvenementServiceImpl implements EvenementService {
             throw new ResourceNotFoundException("Event not found");
         }
     }
+    @Override
+    public Evenement findByID(long id) {
+        Optional<Evenement> userData = this.evenementRepository.findById(id);
+        // Return statement if user exist or throw exception
+        return userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+    }
 
 //        public String affectEventToAdress(long idAdress, long idEvent)
 //        {

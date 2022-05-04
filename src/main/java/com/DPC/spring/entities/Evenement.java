@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,28 +27,62 @@ public class Evenement implements Serializable {
     private Long id;
 
     @NonNull
-    @Column(name = "event_name")
-    private String event_name;
+    @Column(name = "nom_event")
+    private String nom_event;
 
     @NonNull
     @Column(name = "statut")
     private Boolean statut;
 
-    @NonNull
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "date")
     private Date date;
 
     @NonNull
-    @Column(name = "DescriptionEvent")
+    @Column(name = "descriptionEvent")
     private String descriptionEvent;
 
-    @NonNull
-    @Column(name = "image")
-    private String image;
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getPictype() {
+        return pictype;
+    }
+
+    public void setPictype(String pictype) {
+        this.pictype = pictype;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
+    @Column(name = "pic")
+    private String pic;
+
+    @Column(name = "pictype")
+    private String pictype;
+
+    @Column(name = "picByte", length = 100000)
+    private byte[] picByte;
+
+
+
 
     @NonNull
-    @Column(name = "Adressevent")
-    private String Adressevent;
+    @Column(name = "adressevent")
+    private String adressevent;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY,
