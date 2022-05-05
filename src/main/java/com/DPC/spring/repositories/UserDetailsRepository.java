@@ -1,5 +1,6 @@
 package com.DPC.spring.repositories;
 
+import com.DPC.spring.entities.Adress;
 import com.DPC.spring.entities.UserDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,5 +13,6 @@ public interface UserDetailsRepository extends JpaRepository<UserDetails, Long> 
 
     @Query( "select D from UserDetails D inner join D.user u on u.id =:id" )
     Optional<UserDetails> findByUser(long id);
+    Optional<UserDetails> findUserDetailsByAdress(Adress adress);
 
 }

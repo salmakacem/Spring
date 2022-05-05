@@ -41,7 +41,7 @@ public class EvenementController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("/get")
     public ResponseEntity<List<EvenementDto>> getAllEvenement() {
         List<EvenementDto> listEvent = this.evenementService.getAllEventDto();
         return new ResponseEntity<>(listEvent, HttpStatus.OK);
@@ -53,7 +53,7 @@ public class EvenementController {
         return new ResponseEntity<>(evenementDto, HttpStatus.OK);
     }
 
-    @PutMapping("updat/{id}")
+    @PutMapping("/updat/{id}")
     public ResponseEntity<?> updateEventDto(@RequestBody EvenementDto evenementDto, @PathVariable("id") long id) {
         String EventData = this.evenementService.UpdateById(evenementDto, id);
         return new ResponseEntity<>(EventData, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class EvenementController {
     }
 
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<MessageResponse> deleteEvenementById(@PathVariable("id") long id) {
         String message = this.evenementService.deleteEventById(id);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);

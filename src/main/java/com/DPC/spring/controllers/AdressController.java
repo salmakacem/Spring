@@ -12,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin("*" )
+
 @RestController
 @RequestMapping("adress")
-
+@CrossOrigin("*" )
 public class AdressController {
     @Autowired
     AdressService adressService;
@@ -44,6 +44,12 @@ public class AdressController {
         AdressDto adressDto = this.adressService.findAdressByID(id);
         return new ResponseEntity<>(adressDto, HttpStatus.OK);
     }
+    @GetMapping("/getadress/{id}")
+    public ResponseEntity<AdressDto> getAdressByIdUser(@PathVariable("id") long id)
+    {
+        AdressDto adress = this.adressService.getAdressByIdUser(id);
+        return new ResponseEntity<>(adress, HttpStatus.OK);
+    }
 
 
 
@@ -63,6 +69,7 @@ public class AdressController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<MessageResponse> deleteAdressById(@PathVariable("id") long id)
     {
+        System.out.println(id);
         String message = this.adressService.deleteAdressById(id);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }

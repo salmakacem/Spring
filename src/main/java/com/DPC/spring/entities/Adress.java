@@ -48,8 +48,7 @@ public class Adress implements Serializable {
     private String etats;
 
 
-//    @OneToOne(mappedBy = "adress")
-//    private UserDetails userDetails;
+
 //
 //    @OneToOne(mappedBy = "adress")
 //    private Localisation localisation;
@@ -63,11 +62,6 @@ public class Adress implements Serializable {
 
     @OneToOne(mappedBy = "adress")
     private UserDetails userDetails;
-
-
-
-
-
 
     @Setter(value = AccessLevel.NONE)
     @Basic(optional = false)

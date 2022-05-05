@@ -11,6 +11,7 @@ public interface UserDetailsService {
     UserDetailsDto saveNewUserDetailsDto(UserDetailsDto userDetailsDto);
     List<UserDetailsDto> getAllUserDetailsDto();
     UserDetailsDto findUserDtoByID(long id);
+    UserDetailsDto getDetailsByIdUser(long id);
     String UpdateByIdDto(UserDetailsDto userDetailsDtoDto , long id);
     UserDetails saveNewDetails(UserDetails userDetails);
     List<UserDetails> getAllUserDetails();
