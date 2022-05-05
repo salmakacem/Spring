@@ -97,6 +97,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return mappersDto.UserDetailsToUserDetailsDto(userDetailsData);
     }
 
+    @Override
+    public UserDetailsDto getDetailsByIdUser(long id) {
+
+        UserDetails userDetailsData = this.userDetailsRepository.findByUser(id).orElseThrow(() -> new ResourceNotFoundException("Error: UserDetails is not found."));
+        return mappersDto.UserDetailsToUserDetailsDto(userDetailsData);
+    }
+
     public UserDetails saveNewDetails(UserDetails userDetails)
     {
 
@@ -117,7 +124,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     }
 
-
+    @Override
     public String updateUserDetailsByID(long id, UserDetails userDetails)
     {
         Optional<UserDetails> userDetailsData = this.userDetailsRepository.findById(id);
@@ -132,10 +139,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new ResourceNotFoundException("User details not found");
         }
     }
-
+@Override
     public String deleteUserDetailsById(long id)
     {
         Optional<UserDetails> userDetailsData = this.userDetailsRepository.findById(id);
+        Optional<User> userData = this.userRepository.findByDetails(userDetailsData.get());
+        if (userData.isPresent()) {
+            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            existingUser.setDetails(null);
+            this.userRepository.saveAndFlush(existingUser);
+        }
         if (userDetailsData.isPresent()) {
             this.userDetailsRepository.deleteById(id);
             return "User details deleted successfully!";

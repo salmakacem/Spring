@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.sql.Time;
 import java.util.Date;
 
 @Data
@@ -17,7 +18,13 @@ public class EvenementDto {
 
     private String nom_event;
 
-    private Boolean statut;
+//    @Temporal(TemporalType.TIME)
+//    @DateTimeFormat(pattern = "HH:mm")
+//    private Date debut;
+//
+//    @Temporal(TemporalType.TIME)
+//    @DateTimeFormat(pattern = "HH:mm")
+//    private Date fin;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")

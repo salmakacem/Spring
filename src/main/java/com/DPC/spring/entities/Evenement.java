@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,11 +30,14 @@ public class Evenement implements Serializable {
     @NonNull
     @Column(name = "nom_event")
     private String nom_event;
-
-    @NonNull
-    @Column(name = "statut")
-    private Boolean statut;
-
+//
+//    @Temporal(TemporalType.TIME)
+//    @DateTimeFormat(pattern = "HH:mm")
+//    private Date debut;
+//
+//    @Temporal(TemporalType.TIME)
+//    @DateTimeFormat(pattern = "HH:mm")
+//    private Date fin;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")

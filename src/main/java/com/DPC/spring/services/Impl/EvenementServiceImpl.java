@@ -70,6 +70,8 @@ public class EvenementServiceImpl implements EvenementService {
             existingEvenement.setDescriptionEvent(evenementDto.getDescriptionEvent());
 
             existingEvenement.setDate(evenementDto.getDate());
+//            existingEvenement.setDebut(evenementDto.getDebut());
+//            existingEvenement.setFin(evenementDto.getFin());
 
             this.evenementRepository.save(existingEvenement);
 
