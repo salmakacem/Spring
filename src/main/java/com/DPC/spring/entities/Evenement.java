@@ -30,6 +30,9 @@ public class Evenement implements Serializable {
     @NonNull
     @Column(name = "nom_event")
     private String nom_event;
+    @NonNull
+    @Column(name = "Duree")
+    private String Duree;
 //
 //    @Temporal(TemporalType.TIME)
 //    @DateTimeFormat(pattern = "HH:mm")
