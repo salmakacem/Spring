@@ -17,6 +17,7 @@ public class EvenementDto {
     private Long id;
 
     private String nom_event;
+    private String Duree;
 
 //    @Temporal(TemporalType.TIME)
 //    @DateTimeFormat(pattern = "HH:mm")
