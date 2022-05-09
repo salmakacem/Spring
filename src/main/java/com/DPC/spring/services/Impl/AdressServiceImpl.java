@@ -98,12 +98,12 @@ public class AdressServiceImpl implements AdressService {
         Optional<Adress> adressData = this.adressRepository.findById(id);
         if (adressData.isPresent()) {
            Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
-           existingAdress.setRegion(adressDto.getRegion());
+           existingAdress.setGouvernorat(adressDto.getGouvernorat());
            existingAdress.setZip(adressDto.getZip());
            existingAdress.setWork_adress(adressDto.getWork_adress());
            existingAdress.setHome_adress(adressDto.getHome_adress());
            existingAdress.setCity_name(adressDto.getCity_name());
-           existingAdress.setEtats(adressDto.getEtats());
+
 
 
 

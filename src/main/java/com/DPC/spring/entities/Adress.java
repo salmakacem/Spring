@@ -38,14 +38,11 @@ public class Adress implements Serializable {
     private String work_adress;
 
     @NonNull
-    @Column(name = "region")
-    private String region;
+    @Column(name = "gouvernorat")
+    private String gouvernorat;
 
 
 
-    @NonNull
-    @Column(name = "etats")
-    private String etats;
 
 
 
