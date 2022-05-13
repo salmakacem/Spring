@@ -11,13 +11,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(exclude = {"createdAt", "updatedAt", "details", "posts",  "roles"})
 public class User implements Serializable {
@@ -43,6 +43,15 @@ public class User implements Serializable {
     @Column(name = "telephone")
     private String telephone;
 
+
+
+
+    @Size(max = 20)
+    @Column(name = "codeverification", length = 20)
+    @JsonIgnore
+    private String codeverification;
+
+
     @Size(max = 20)
     @Column(name = "reset_key", length = 20)
     @JsonIgnore
@@ -50,6 +59,58 @@ public class User implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    public String getpassword() {
+        return password;
+    }
+
+    public void setpassword(String password) {
+        this.password = password;
+    }
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getPictype() {
+        return pictype;
+    }
+
+    public void setPictype(String pictype) {
+        this.pictype = pictype;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
+    @Column(name = "pic")
+    private String pic;
+
+    @Column(name = "pictype")
+    private String pictype;
+
+    @Column(name = "picByte", length = 100000)
+    private byte[] picByte;
+
+
 
     @Column(name="connected")
     private String connected;
@@ -101,6 +162,10 @@ public class User implements Serializable {
     @JoinColumn(name = "details_id", referencedColumnName = "id")
     private UserDetails details;
 
+//    @JsonIgnore
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "image", referencedColumnName = "id")
+//    private ImageModel imageModel;
 
 
 
@@ -140,4 +205,7 @@ public class User implements Serializable {
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt = new Date();
+
+
+
 }

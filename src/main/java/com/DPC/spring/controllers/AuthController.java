@@ -13,7 +13,6 @@ import com.DPC.spring.services.Impl.MailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -43,7 +42,17 @@ public class AuthController {
     public ResponseEntity<MessageResponse> register(@Valid @RequestBody RegisterRequest registerRequest) throws EmailAlreadyUsedException {
         String message = this.authService.register(registerRequest);
         return ResponseEntity.ok(new MessageResponse(message));
+
     }
+
+    @PostMapping("/verif")
+    public void verif(@RequestParam String email) throws EmailAlreadyUsedException {
+        mailService.verificationcode(
+                authService.resetcode(email)
+                        .orElseThrow(() -> new ResourceNotFoundException("No user was found for this reset key."))
+        );
+    }
+
     @PostMapping(path = "/reset-password/init")
     public void requestPasswordReset(@RequestParam String email) {
         mailService.EnvoyerEmail(
@@ -51,15 +60,32 @@ public class AuthController {
                         .orElseThrow(() -> new ResourceNotFoundException("No user was found for this reset key."))
         );
     }
+    @PostMapping(path = "/reset-code")
+    public void resetcode(@RequestParam String email) {
+        mailService.verificationcode(
+                authService.resetcode(email)
+                        .orElseThrow(() -> new ResourceNotFoundException("No user was found for this reset key."))
+        );
+    }
+    @PostMapping(path = "/finish")
+    public String finishcode(@RequestParam String key,@RequestParam String code) {
+        Optional<User> user =
+                authService.finishcode(code, key);
 
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException("Error: user is not found.");
+        }
+        return ("code vérifié");
+    }
 
     @PostMapping(path = "/reset-password/finish")
-    public void finishPasswordReset(@RequestParam String key,@RequestParam String newPassword) {
+    public String finishPasswordReset(@RequestParam String key,@RequestParam String newPassword) {
         Optional<User> user =
                 authService.completePasswordReset(newPassword, key);
 
         if (!user.isPresent()) {
             throw new ResourceNotFoundException("Error: user is not found.");
         }
+        return ("mot de passe changé");
     }
 }

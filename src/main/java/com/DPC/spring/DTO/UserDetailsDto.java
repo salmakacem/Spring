@@ -15,11 +15,6 @@ import java.util.Date;
 public class UserDetailsDto {
     private long id;
 
-    private int CIN;
-
-
-
-
     private Date date_de_naissance;
 
     private String nationalite;

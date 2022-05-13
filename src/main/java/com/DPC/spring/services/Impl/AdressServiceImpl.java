@@ -55,6 +55,12 @@ public class AdressServiceImpl implements AdressService {
         Adress adressData = this.adressRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Error: evenement is not found."));
         return mappersDto.AdressToAdressDto(adressData);
     }
+    @Override
+    public AdressDto getAdressByIdUser(long id) {
+
+        Adress adress = this.adressRepository.findByUserDetails(id).orElseThrow(() -> new ResourceNotFoundException("Error: UserDetails is not found."));
+        return mappersDto.AdressToAdressDto(adress);
+    }
 
     @Override
     public List<AdressDto> getAllAdressDto() {
@@ -69,9 +75,18 @@ public class AdressServiceImpl implements AdressService {
     @Override
     public String deleteAdressById(long id)
     {
+
         Optional<Adress> adressData = this.adressRepository.findById(id);
+        Optional<UserDetails> userData = this.userDetailsRepository.findUserDetailsByAdress(adressData.get());
+        if (userData.isPresent()) {
+            UserDetails existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            existingUser.setAdress(null);
+            this.userDetailsRepository.saveAndFlush(existingUser);
+        }
+
         if (adressData.isPresent()) {
-            this.adressRepository.deleteById(adressData.get().getId());
+
+            this.adressRepository.deleteById(id);
             return "Adress deleted successfully!";
         } else {
             throw new ResourceNotFoundException("Adress not found");
@@ -83,12 +98,12 @@ public class AdressServiceImpl implements AdressService {
         Optional<Adress> adressData = this.adressRepository.findById(id);
         if (adressData.isPresent()) {
            Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
-           existingAdress.setRegion(adressDto.getRegion());
+           existingAdress.setGouvernorat(adressDto.getGouvernorat());
            existingAdress.setZip(adressDto.getZip());
            existingAdress.setWork_adress(adressDto.getWork_adress());
            existingAdress.setHome_adress(adressDto.getHome_adress());
            existingAdress.setCity_name(adressDto.getCity_name());
-           existingAdress.setEtats(adressDto.getEtats());
+
 
 
 

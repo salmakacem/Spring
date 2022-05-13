@@ -74,6 +74,13 @@ public class UserDetailsController {
         return new ResponseEntity<>(userDetails, HttpStatus.OK);
     }
 
+    @GetMapping("/detailByIdUser/{id}")
+    public ResponseEntity<UserDetailsDto> getDetailsByIdUser(@PathVariable("id") long id)
+    {
+        UserDetailsDto userDetails = this.userDetailsService.getDetailsByIdUser(id);
+        return new ResponseEntity<>(userDetails, HttpStatus.OK);
+    }
+
 
 
     @PutMapping("/{id}")

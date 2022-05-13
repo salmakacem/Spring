@@ -17,8 +17,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 @Order(1)
@@ -46,6 +50,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("GET","POST","PUT","DELETE")
+                        .allowedHeaders("*")
+                        .allowedOrigins("*");
+            }
+        };
+    }
+    @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
@@ -61,7 +77,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/ajout").permitAll()
                 .antMatchers("/user-details/ajoutd").permitAll()
                 .antMatchers("/adress/save").permitAll()
+
                 .antMatchers("/users/GetAllU").permitAll()
+
+
+            
+                .antMatchers("/images/**").permitAll()
 
                 .antMatchers("/adress/find/{iduser}").permitAll()
                 .antMatchers("/adress/trouve/{id}").permitAll()
@@ -78,6 +99,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/adress/updat/{id}").permitAll()
                 .antMatchers("/user-details/Dto/{id}").permitAll()
                 .antMatchers("/users/update/{id}").permitAll()
+                .antMatchers("/event/updat/{id}").permitAll()
+
+
 
 
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()

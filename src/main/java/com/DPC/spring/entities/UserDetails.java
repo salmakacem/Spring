@@ -22,10 +22,6 @@ public class UserDetails implements Serializable {
     private long id;
 
     @NonNull
-    @Column(name = "CIN")
-    private int CIN;
-
-    @NonNull
     @Column(name = "date_de_naissance")
     private Date date_de_naissance;
     @NonNull
@@ -40,7 +36,6 @@ public class UserDetails implements Serializable {
     @NonNull
     @Column(name = "profession")
     private String profession;
-
 
 
     // OneToOne Relations

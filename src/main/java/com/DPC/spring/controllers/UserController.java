@@ -4,6 +4,7 @@ import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.entities.ImageModel;
+import com.DPC.spring.entities.ResetPassword;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.payload.responses.MessageResponse;
 import com.DPC.spring.repositories.UserRepository;
@@ -12,16 +13,26 @@ import com.DPC.spring.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterOutputStream;
 
@@ -32,10 +43,10 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    private JavaMailSender mailSender;
 
     @GetMapping("user/{id}")
     public ResponseEntity<?> findUserDto(@PathVariable("id") long id){
@@ -55,7 +66,9 @@ public class UserController {
     }
 
 
+
     @PutMapping("/update/{id}")
+
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
@@ -184,22 +197,23 @@ public class UserController {
         }
     }
 
+//    @RequestMapping(value="/clients/resetPassword",method=RequestMethod.POST)
+//    public boolean resetPassword(@RequestBody ResetPassword passwordReset ,@RequestParam String email){
+//        Optional<User> existeClient=userRepository.findOneByEmailIgnoreCase(email);
+//
+//        if (!existeClient.get().getpassword().equals(passwordReset.getPasswordA())){
+//            return false ;
+//        }
+//        else {
+//            existeClient.get().setpassword(passwordReset.getPasswordN());
+//            userService.AjoutClient(existeClient.get());
+//            return true;
+//        }
+//    }
 
-    @PutMapping("/updateConnected/{id}")
-    private boolean update_Connected(@PathVariable("id") long id ){
-        System.out.println(id);
-        User existeint= userService.AfficheIntervenant(id);
-
-        if (existeint.getConnected().equals("no")) {
-            existeint.setConnected("yes");
-        }else{
-            existeint.setConnected("no");
-        }
-        userRepository.save(existeint);
-
-        return true;
+    @PostMapping(path = "/clients/resetPassword")
+    public String changePassword(@RequestParam String email ,@RequestParam String currentPassword,@RequestParam String newPassword) {
+        return   this.userService.changePassword(email,currentPassword,newPassword);
     }
-
-
 
 }

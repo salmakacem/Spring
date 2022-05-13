@@ -49,28 +49,39 @@ public  class UserServiceImpl implements UserService {
         this.mappersDto = mappersDto;
     }
 
+    public String changePassword(String email ,String currentPassword, String newPassword) {
+        User user = userRepository.findByEmail(email);
 
-    @Override
-    public User AfficheIntervenant(Long id)
-    {
-        return userRepository.findById(id).get();
+
+        if (!passwordEncoder.matches(currentPassword, user.getpassword())) {
+            throw new ResourceNotFoundException("mot de passe incorrect");
+        }
+        String  encryptedPassword=passwordEncoder.encode(newPassword);
+        user.setpassword(encryptedPassword);
+        this.userRepository.saveAndFlush(user);
+        return "Password updated successfully!";
     }
 
+//    @Override
+//    public List<User> AjoutClient(User c) {
+//        this.userRepository.save(c);
+//        return  userRepository.findAll();
+//    }
     @Override
     public UserDto saveNewUserDto(UserDto userDto) {
 
         User user = mappersDto.UserDtoToUser(userDto);
         User saveUser = userRepository.save(user);
         UserDto userDto1 = mappersDto.UserToUserDto(saveUser);
-
-                return userDto1;
+        //this.mailservice.verificationcode(saveUser);
+        return userDto1;
 
     }
 
     @Override
     public List<UserDto> getAllUserDto() {
 
-        List<User> listUser  =this.userRepository.findAll();
+        List<User> listUser = this.userRepository.findAll();
         return listUser
                 .stream()
                 .map(mappersDto::UserToUserDto)
@@ -78,29 +89,30 @@ public  class UserServiceImpl implements UserService {
 
 
     }
+
     @Override
-    public String UpdateByIdDto(UserDto userDto , long id) {
-            Optional<User> userData = this.userRepository.findById(id);
-            if (userData.isPresent()) {
-                User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
-                existingUser.setFirstName(userDto.getFirstName());
-                existingUser.setLastName(userDto.getLastName());
-                existingUser.setEmail(userDto.getEmail());
+    public String UpdateByIdDto(UserDto userDto, long id) {
+        Optional<User> userData = this.userRepository.findById(id);
+        if (userData.isPresent()) {
+            User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            existingUser.setFirstName(userDto.getFirstName());
+            existingUser.setLastName(userDto.getLastName());
+            existingUser.setEmail(userDto.getEmail());
 
-                existingUser.setTelephone(userDto.getTelephone());
+            existingUser.setTelephone(userDto.getTelephone());
 
-               // Change password if exist
+            // Change password if exist
 
-           // save existingUser in the database
+            // save existingUser in the database
             this.userRepository.save(existingUser);
             // return statement
             return "User updated successfully!";
-       } else {
+        } else {
             throw new ResourceNotFoundException("User not found");
         }
 
 
-        }
+    }
 
 
     @Override
@@ -112,11 +124,11 @@ public  class UserServiceImpl implements UserService {
         return mappersDto.UserToUserDto(userData);
     }
 
-    @Override
-    public User saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return this.userRepository.save(user);
-    }
+//    @Override
+//    public User saveNewUser(User user) {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        return this.userRepository.save(user);
+//    }
 
     @Override
     public List<User> getAllUsers() {
@@ -155,8 +167,7 @@ public  class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public String deleteUserById(long id)
-    {
+    public String deleteUserById(long id) {
         Optional<User> userData = this.userRepository.findById(id);
         if (userData.isPresent()) {
             this.userRepository.deleteById(id);
@@ -184,7 +195,7 @@ public  class UserServiceImpl implements UserService {
     }
 
     @Override
-    public  String affectUserToDetails(long idUser, long idDetails) {
+    public String affectUserToDetails(long idUser, long idDetails) {
         Optional<User> userData = this.userRepository.findById(idUser);
         if (userData.isPresent()) {
             User existingUser = userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -214,7 +225,7 @@ public  class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllUsersDto() {
-        List<User> listUser  =this.userRepository.findAll();
+        List<User> listUser = this.userRepository.findAll();
         return listUser
                 .stream()
                 .map(mappersDto::UserToUserDto)
@@ -232,5 +243,14 @@ public  class UserServiceImpl implements UserService {
         return mappersDto.UserToUserDto(userData);
     }
 
+    @Override
+    public void updatePassword(User user, String newPassword) {
+         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+         String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setpassword(newPassword);
+
+        user.setResetPasswordToken(null);
+        userRepository.save(user);
+    }
 
 }

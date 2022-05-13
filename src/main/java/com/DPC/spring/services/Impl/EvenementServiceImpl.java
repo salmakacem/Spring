@@ -2,11 +2,9 @@ package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.EvenementDto;
+import com.DPC.spring.DTO.UserDto;
 import com.DPC.spring.Mappers.MappersDto;
-import com.DPC.spring.entities.Adress;
-import com.DPC.spring.entities.Archive;
-import com.DPC.spring.entities.Evenement;
-import com.DPC.spring.entities.UserDetails;
+import com.DPC.spring.entities.*;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.EvenementRepository;
@@ -65,24 +63,27 @@ public class EvenementServiceImpl implements EvenementService {
         Optional<Evenement> eventData = this.evenementRepository.findById(id);
         if (eventData.isPresent()) {
             Evenement existingEvenement = eventData.orElseThrow(() -> new ResourceNotFoundException("Evenement not found"));
-            existingEvenement.setBudget(evenementDto.getBudget());
-            existingEvenement.setEvent_name(evenementDto.getEvent_name());
-            existingEvenement.setDescriptionEvent(evenementDto.getDescriptionEvent());
-            existingEvenement.setStatut(evenementDto.getStatut());
-            existingEvenement.setDate(evenementDto.getDate());
 
+            existingEvenement.setAdressevent(evenementDto.getAdressevent());
+
+            existingEvenement.setNom_event(evenementDto.getNom_event());
+            existingEvenement.setDescriptionEvent(evenementDto.getDescriptionEvent());
+
+            existingEvenement.setDate(evenementDto.getDate());
+//          existingEvenement.setDebut(evenementDto.getDebut());
+//          existingEvenement.setFin(evenementDto.getFin());
+            existingEvenement.setDuree(evenementDto.getDuree());
             this.evenementRepository.save(existingEvenement);
 
 
             return "evenement updated successfully!";
-        }
-        else {
+        } else {
             throw new ResourceNotFoundException("evenement not found");
         }
 
     }
-    public String deleteEventById(long id)
-    {
+
+    public String deleteEventById(long id) {
         Optional<Evenement> eventData = this.evenementRepository.findById(id);
         if (eventData.isPresent()) {
             this.evenementRepository.deleteById(eventData.get().getId());
@@ -91,29 +92,34 @@ public class EvenementServiceImpl implements EvenementService {
             throw new ResourceNotFoundException("Event not found");
         }
     }
+    @Override
+    public Evenement findByID(long id) {
+        Optional<Evenement> userData = this.evenementRepository.findById(id);
+        // Return statement if user exist or throw exception
+        return userData.orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+    }
 
-
-        public String affectEventToAdress(long idAdress, long idEvent)
-        {
-
-
-            Optional<Evenement> eventData = this.evenementRepository.findById(idEvent);
-            if (eventData.isPresent()) {
-                Evenement existingEvent = eventData.orElseThrow(() -> new ResourceNotFoundException("Details not found"));
-                Optional<Adress> adressData = this.adressRepository.findById(idAdress);
-                if (adressData.isPresent()) {
-                    Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
-                    //  existingAdress.setUserDetails(existingUserDetails);
-                    existingEvent.setAdress(existingAdress);
-                    this.evenementRepository.save(existingEvent);
-                    this.adressRepository.save(existingAdress);
-                }
-            }
-            return "Details affected to details successfully!";
-        }
-
-
+//        public String affectEventToAdress(long idAdress, long idEvent)
+//        {
+//
+//
+//            Optional<Evenement> eventData = this.evenementRepository.findById(idEvent);
+//            if (eventData.isPresent()) {
+//                Evenement existingEvent = eventData.orElseThrow(() -> new ResourceNotFoundException("Details not found"));
+//                Optional<Adress> adressData = this.adressRepository.findById(idAdress);
+//                if (adressData.isPresent()) {
+//                    Adress existingAdress = adressData.orElseThrow(() -> new ResourceNotFoundException("Adress not found"));
+//                    //  existingAdress.setUserDetails(existingUserDetails);
+//                    existingEvent.setAdress(existingAdress);
+//                    this.evenementRepository.save(existingEvent);
+//                    this.adressRepository.save(existingAdress);
+//                }
+//            }
+//            return "Details affected to details successfully!";
+//        }
+//
+//
 
 }
 

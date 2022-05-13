@@ -32,7 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User with email = " + email + " not found");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getGrantedAuthorities(user));
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getpassword(), getGrantedAuthorities(user));
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {

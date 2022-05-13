@@ -18,9 +18,6 @@ public class AdressDto {
 
     private String work_adress;
 
-    private String region;
+    private String gouvernorat;
 
-
-
-    private String etats;
 }

@@ -38,18 +38,14 @@ public class Adress implements Serializable {
     private String work_adress;
 
     @NonNull
-    @Column(name = "region")
-    private String region;
+    @Column(name = "gouvernorat")
+    private String gouvernorat;
 
 
 
-    @NonNull
-    @Column(name = "etats")
-    private String etats;
 
 
-//    @OneToOne(mappedBy = "adress")
-//    private UserDetails userDetails;
+
 //
 //    @OneToOne(mappedBy = "adress")
 //    private Localisation localisation;
@@ -63,11 +59,6 @@ public class Adress implements Serializable {
 
     @OneToOne(mappedBy = "adress")
     private UserDetails userDetails;
-
-
-
-
-
 
     @Setter(value = AccessLevel.NONE)
     @Basic(optional = false)
