@@ -51,6 +51,50 @@ public class User implements Serializable {
     @Column(name = "reset_date")
     private Instant resetDate = null;
 
+    @Column(name="connected")
+    private String connected;
+
+    public String getConnected() {
+        return connected;
+    }
+
+    public void setConnected(String connected) {
+        this.connected = connected;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public String getPictype() {
+        return pictype;
+    }
+
+    public void setPictype(String pictype) {
+        this.pictype = pictype;
+    }
+
+    public byte[] getPicByte() {
+        return picByte;
+    }
+
+    public void setPicByte(byte[] picByte) {
+        this.picByte = picByte;
+    }
+
+    @Column(name = "pic")
+    private String pic;
+
+    @Column(name = "pictype")
+    private String pictype;
+
+    @Column(name = "picByte", length = 100000)
+    private byte[] picByte;
+
     // OneToOne Relations
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
@@ -81,10 +125,7 @@ public class User implements Serializable {
     private Set<Evenement> evenements = new HashSet<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "messagerie_users",
-            joinColumns = { @JoinColumn(name = "user_id") })
-    private Set<Messagerie> messageries = new HashSet<>();
+
 
 
     @Setter(value = AccessLevel.NONE)

@@ -13,4 +13,5 @@ public interface AdressRepository extends JpaRepository<Adress, Long> {
 
     @Query( "select D from Adress D inner join D.userDetails u on u.id =:id" )
     Optional<Adress> findByUserDetails(long id);
+
 }

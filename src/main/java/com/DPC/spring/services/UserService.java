@@ -26,5 +26,8 @@ public interface UserService {
     UserDto findUserByEmail(String email);
 
 
+    User AfficheIntervenant(Long id);
+
+
 
 }

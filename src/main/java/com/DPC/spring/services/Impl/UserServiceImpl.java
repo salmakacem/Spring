@@ -49,6 +49,13 @@ public  class UserServiceImpl implements UserService {
         this.mappersDto = mappersDto;
     }
 
+
+    @Override
+    public User AfficheIntervenant(Long id)
+    {
+        return userRepository.findById(id).get();
+    }
+
     @Override
     public UserDto saveNewUserDto(UserDto userDto) {
 

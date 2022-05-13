@@ -35,6 +35,9 @@ public class AuthService {
     UserRepository userRepository;
 
     @Autowired
+    DeviceNotificationService deviceNotificationService;
+
+    @Autowired
     RoleRepository roleRepository;
 
     // pour crypter le password (NB: il faut ajouter le bean BCryptPasswordEncoder dans l'application)
@@ -58,6 +61,7 @@ public class AuthService {
         List<Role> roles= roleRepository.findByUsers(user);
         userDetails.getAuthorities().stream().map(grantedAuthority -> grantedAuthority.getAuthority().toString()).collect(Collectors.toList());
 
+        this.deviceNotificationService.saveOrUpdateDevice(loginRequest.getTypeDevice(),loginRequest.getTokenNotification(),user.getId());
 
         return new LoginResponse(this.jwtTokenUtils.generateToken(userDetails),roles);
     }

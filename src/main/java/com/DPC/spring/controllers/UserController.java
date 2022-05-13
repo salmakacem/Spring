@@ -3,8 +3,10 @@ package com.DPC.spring.controllers;
 import com.DPC.spring.DTO.AdressDto;
 import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.DTO.UserDto;
+import com.DPC.spring.entities.ImageModel;
 import com.DPC.spring.entities.User;
 import com.DPC.spring.payload.responses.MessageResponse;
+import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.MailService;
 import com.DPC.spring.services.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -15,8 +17,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.InflaterOutputStream;
 
 @RestController
 @RequestMapping("/users")
@@ -25,6 +32,9 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    UserRepository userRepository;
 
 
     @GetMapping("user/{id}")
@@ -113,5 +123,83 @@ public class UserController {
         String message = this.userService.affectUserToDetails(idUser, idDetails);
         return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
     }
+
+    @PostMapping("/upload_photo_c")
+    public User uplaodImage(@RequestParam("id") long id,@RequestPart("file") MultipartFile file) throws IOException {
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        // ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
+        //      compressBytes(file.getBytes()));
+        //  imageRepository.save(img);
+        User cli= this.userService.findUserByID(id);
+        cli.setPic(file.getOriginalFilename());
+        cli.setPictype(file.getContentType());
+        cli.setPicByte(compress(file.getBytes()));
+        userRepository.save(cli);
+        return cli;
+    }
+
+    public static byte[] compress(byte[] in) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            DeflaterOutputStream defl = new DeflaterOutputStream(out);
+            defl.write(in);
+            defl.flush();
+            defl.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(150);
+            return null;
+        }
+    }
+
+
+    public static byte[] decompress(byte[] in) {
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            InflaterOutputStream infl = new InflaterOutputStream(out);
+            infl.write(in);
+            infl.flush();
+            infl.close();
+
+            return out.toByteArray();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(150);
+            return null;
+        }
+    }
+    @GetMapping(path = { "/get_photo_c/{id}" })
+    public ImageModel getImage(@PathVariable("id") Long id) throws IOException {
+        User inter= this.userService.findUserByID(id);
+        if(inter.getPic()!=null) {
+            ImageModel img = new ImageModel(inter.getPic(), inter.getPictype(),
+                    decompress(inter.getPicByte()));
+            return img;
+        }
+        else{
+            return new ImageModel(null, null,
+                    null);
+        }
+    }
+
+
+    @PutMapping("/updateConnected/{id}")
+    private boolean update_Connected(@PathVariable("id") long id ){
+        System.out.println(id);
+        User existeint= userService.AfficheIntervenant(id);
+
+        if (existeint.getConnected().equals("no")) {
+            existeint.setConnected("yes");
+        }else{
+            existeint.setConnected("no");
+        }
+        userRepository.save(existeint);
+
+        return true;
+    }
+
+
 
 }
