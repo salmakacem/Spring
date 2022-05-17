@@ -27,7 +27,7 @@ public interface UserService {
     void updatePassword (User user, String newPassword);
 
 
-    User AfficheIntervenant(Long id);
+
 
 
 

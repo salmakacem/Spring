@@ -71,7 +71,7 @@ public class UserController {
 
     public ResponseEntity<MessageResponse> updateUserDto(@RequestBody UserDto userDto , @PathVariable("id") long id){
         String message = this.userService.UpdateByIdDto(userDto,id);
-       return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
+        return new ResponseEntity<>(new MessageResponse(message), HttpStatus.OK);
 
     }
 
