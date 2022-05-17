@@ -113,8 +113,7 @@ public class Evenement implements Serializable {
     private Set<Association> associations = new HashSet<>();
 
 
-    @OneToOne(mappedBy = "evenement")
-    private Archive archive;
+
 
     @Setter(value = AccessLevel.NONE)
     @Basic(optional = false)

@@ -1,9 +1,11 @@
 package com.DPC.spring.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -146,9 +148,6 @@ public class User implements Serializable {
     private Set<Evenement> evenements = new HashSet<>();
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "messagerie_users",
-            joinColumns = { @JoinColumn(name = "user_id") })
 
 
 
@@ -163,8 +162,4 @@ public class User implements Serializable {
     @UpdateTimestamp
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt = new Date();
-
-
-
-}
+    private Date updatedAt = new Date();}

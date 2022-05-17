@@ -1,17 +1,12 @@
 package com.DPC.spring.services.Impl;
 
 import com.DPC.spring.DTO.AdressDto;
-import com.DPC.spring.DTO.EvenementDto;
-import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.Mappers.MappersDto;
 import com.DPC.spring.entities.Adress;
-import com.DPC.spring.entities.Evenement;
-import com.DPC.spring.entities.User;
 import com.DPC.spring.entities.UserDetails;
 import com.DPC.spring.exceptions.ResourceNotFoundException;
 import com.DPC.spring.repositories.AdressRepository;
 import com.DPC.spring.repositories.UserDetailsRepository;
-import com.DPC.spring.repositories.UserRepository;
 import com.DPC.spring.services.AdressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,6 @@ package com.DPC.spring.controllers;
 
 
 import com.DPC.spring.DTO.AdressDto;
-import com.DPC.spring.DTO.EvenementDto;
-import com.DPC.spring.DTO.UserDetailsDto;
 import com.DPC.spring.payload.responses.MessageResponse;
 import com.DPC.spring.services.AdressService;
 import org.springframework.beans.factory.annotation.Autowired;
